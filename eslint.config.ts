@@ -46,6 +46,8 @@ const config: Linter.Config[] = [
       globals: {
         ...globals.node,
         ...globals.browser,
+        // Injected by Vite define in vite.config.ts
+        __ICONS_SERVER_URL__: 'readonly',
       },
     },
     plugins: {

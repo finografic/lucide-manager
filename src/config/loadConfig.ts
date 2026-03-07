@@ -1,31 +1,27 @@
 /**
  * loadConfig.ts
  *
- * Resolves paths to icons.json and the icons output directory.
+ * Resolves the icon server URL for the picker UI.
  *
  * Two modes:
  *
  * SELF-DEV — when run from within this package itself (pkgRoot === cwd).
- *   Uses fixed paths from defaults.ts (dev/icons.json, dev/).
- *   Ensures the dev directory exists and seeds icons.json on first run.
- *   No config file needed or consulted.
+ *   Returns DEFAULT_SERVER_URL. No config file needed.
  *
  * INSTALLED — when run from a host package (the normal use case).
  *   Walks up from cwd looking for `lucide-manager.config.json`.
- *   Throws a descriptive error if not found.
- *
- * Returns resolved absolute paths so callers never need to think about cwd.
+ *   Reads `serverUrl` from it, or falls back to DEFAULT_SERVER_URL.
+ *   Throws a descriptive error if the config file is not found at all.
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { CONFIG_FILENAME, SELF_DEV } from './defaults';
+import { CONFIG_FILENAME, DEFAULT_SERVER_URL } from './defaults';
 
 export interface LucideManagerConfig {
-  iconsJsonPath: string; // absolute path to icons.json
-  iconsDir: string; // absolute path to the icons output directory
+  serverUrl: string;
 }
 
 // The root of this package — two levels up from src/config/
@@ -40,21 +36,7 @@ export function loadConfig(
   // Detected when the tool is run from within its own package root.
 
   if (cwd === PKG_ROOT) {
-    const iconsDir = path.join(PKG_ROOT, SELF_DEV.iconsDir);
-    const iconsJsonPath = path.join(PKG_ROOT, SELF_DEV.iconsJson);
-
-    // Ensure dev/ exists
-    if (!fs.existsSync(iconsDir)) {
-      fs.mkdirSync(iconsDir, { recursive: true });
-    }
-
-    // Seed dev/icons.json from root icons.json on first run
-    if (!fs.existsSync(iconsJsonPath)) {
-      const seed = path.join(PKG_ROOT, 'icons.json');
-      fs.copyFileSync(seed, iconsJsonPath);
-    }
-
-    return { iconsJsonPath, iconsDir };
+    return { serverUrl: DEFAULT_SERVER_URL };
   }
 
   // ── Installed mode ─────────────────────────────────────────────────────────
@@ -68,13 +50,11 @@ export function loadConfig(
 
     if (fs.existsSync(candidate)) {
       const raw = JSON.parse(fs.readFileSync(candidate, 'utf8')) as {
-        iconsJsonPath: string;
-        iconsDir: string;
+        serverUrl?: string;
       };
 
       return {
-        iconsJsonPath: path.resolve(dir, raw.iconsJsonPath),
-        iconsDir: path.resolve(dir, raw.iconsDir),
+        serverUrl: raw.serverUrl ?? DEFAULT_SERVER_URL,
       };
     }
 
@@ -84,6 +64,6 @@ export function loadConfig(
   throw new Error(
     `[lucide-manager] Could not find "${CONFIG_FILENAME}" in "${startDir}" or any parent directory.\n\n`
       + `Create a "${CONFIG_FILENAME}" in your package root:\n\n`
-      + `  {\n    "iconsJsonPath": "./src/icons/icons.json",\n    "iconsDir": "./src/icons"\n  }\n`,
+      + `  {\n    "serverUrl": "http://localhost:3001"\n  }\n`,
   );
 }

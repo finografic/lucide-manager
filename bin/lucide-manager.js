@@ -6,8 +6,10 @@
  * CLI shim for @finografic/lucide-manager.
  *
  * Usage:
- *   lucide-manager dev       → starts the Vite icon picker at localhost:5199
- *   lucide-manager generate  → reads icons.json and writes icons.ts + index.ts
+ *   lucide-manager dev   → starts the Vite icon picker at localhost:5199
+ *
+ * The picker UI talks to a local Hono server that the host package provides.
+ * Start the server separately via: pnpm icons  (from the host package root)
  *
  * Must be run from the host package root (where lucide-manager.config.json lives).
  */
@@ -24,21 +26,16 @@ const pkgRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 
 /**
  * Find a binary by searching candidate locations in order:
- *   1. lucide-manager's own node_modules (present in dev / when deps are installed)
+ *   1. lucide-manager's own node_modules
  *   2. The host package's node_modules (process.cwd())
  *   3. The workspace / monorepo root (one or two levels up from cwd)
  *   4. Fall back to bare name and rely on PATH
  */
 function findBin(name) {
   const candidates = [
-    // pnpm: bins for package deps live as siblings to the package in the store
-    // e.g. .pnpm/<pkg>/node_modules/.bin/  (one dir up from @scope/pkg)
     resolve(pkgRoot, '..', '.bin', name),
-    // pnpm: sometimes nested one level deeper (scoped packages)
     resolve(pkgRoot, 'node_modules', '.bin', name),
-    // host package's own node_modules (process.cwd() = design-system root)
     resolve(process.cwd(), 'node_modules', '.bin', name),
-    // workspace / monorepo root (one or two levels up from host package)
     resolve(process.cwd(), '..', 'node_modules', '.bin', name),
     resolve(process.cwd(), '..', '..', 'node_modules', '.bin', name),
   ];
@@ -46,7 +43,6 @@ function findBin(name) {
 }
 
 const viteBin = findBin('vite');
-const tsxBin = findBin('tsx');
 
 if (command === 'dev') {
   spawn(viteBin, ['--config', resolve(pkgRoot, 'vite.config.ts')], {
@@ -56,14 +52,9 @@ if (command === 'dev') {
     // lucide-manager.config.json even though Vite runs with cwd = pkgRoot.
     env: { ...process.env, LUCIDE_MANAGER_HOST_CWD: process.cwd() },
   });
-} else if (command === 'generate') {
-  spawn(tsxBin, [resolve(pkgRoot, 'scripts', 'generate-icons-ts.ts')], {
-    stdio: 'inherit',
-    cwd: process.cwd(), // host package's cwd — loadConfig() walks up from here
-  });
 } else {
   const label = command ? `"${command}"` : '(none)';
   process.stderr.write(`lucide-manager: unknown command ${label}\n`);
-  process.stderr.write('Usage: lucide-manager dev | generate\n');
+  process.stderr.write('Usage: lucide-manager dev\n');
   process.exit(1);
 }

@@ -46,7 +46,7 @@ export function useIconsJson() {
   // ── Load ───────────────────────────────────────────────────────────────────
 
   useEffect(() => {
-    fetch('/api/icons-json')
+    fetch(`${__ICONS_SERVER_URL__}/api/icons-json`)
       .then(res => {
         if (!res.ok) throw new Error(`Failed to load icons.json: ${res.status}`);
         return res.json() as Promise<IconEntry[]>;
@@ -75,7 +75,7 @@ export function useIconsJson() {
   const saveEntries = useCallback(async (next: IconEntry[]) => {
     setState(prev => ({ ...prev, saving: true, error: null }));
     try {
-      const res = await fetch('/api/icons-json', {
+      const res = await fetch(`${__ICONS_SERVER_URL__}/api/icons-json`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(next, null, 2),

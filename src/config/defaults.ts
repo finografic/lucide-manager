@@ -10,15 +10,8 @@
 /** The config file that host packages create in their root. */
 export const CONFIG_FILENAME = 'lucide-manager.config.json';
 
-/**
- * Self-development paths — used only when the tool is run from its own package root.
- * These paths are relative to the package root and are always gitignored.
- * They are fixed (not configurable) to guarantee they stay out of version control.
- */
-export const SELF_DEV = {
-  iconsJson: 'dev/icons.json',
-  iconsDir: 'dev',
-} as const;
+/** Default server URL — used in self-dev mode and as fallback. */
+export const DEFAULT_SERVER_URL = 'http://localhost:3001';
 
 /** Dev server defaults — referenced by vite.config.ts. */
 export const SERVER = {

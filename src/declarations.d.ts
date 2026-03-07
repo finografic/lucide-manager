@@ -1,3 +1,6 @@
+/** Injected by Vite define — resolves to the Hono server URL at build time. */
+declare const __ICONS_SERVER_URL__: string;
+
 declare module 'eslint-plugin-markdownlint' {
   import type { Linter } from 'eslint';
   const plugin: Linter.Plugin;
