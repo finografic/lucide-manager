@@ -1,3 +1,3 @@
-export const hello = () => {
-  return 'Hello from @finografic/lucide-manager!';
-};
+// @finografic/lucide-manager
+// This package is a Vite devtool + CLI — not a library with public exports.
+// Entry point is bin/lucide-manager.js
