@@ -20,7 +20,7 @@ Project-specific rules live in `.github/instructions/project/`. Add `*.instructi
 
 ## Project-Specific
 
-- Do not include `Co-Authored-By` lines in commit messages.
+- IMPORTANT: NEVER include `Co-Authored-By` lines in commit messages. Not ever, not for any reason.
 
 ## Session Memory
 
