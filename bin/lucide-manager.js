@@ -12,6 +12,7 @@
  * Must be run from the host package root (where lucide-manager.config.json lives).
  */
 
+import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
@@ -21,8 +22,25 @@ const [, , command] = process.argv;
 // Resolve the root of the lucide-manager package itself (not the host's cwd)
 const pkgRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 
-const viteBin = resolve(pkgRoot, 'node_modules', '.bin', 'vite');
-const tsxBin = resolve(pkgRoot, 'node_modules', '.bin', 'tsx');
+/**
+ * Find a binary by searching candidate locations in order:
+ *   1. lucide-manager's own node_modules (present in dev / when deps are installed)
+ *   2. The host package's node_modules (process.cwd())
+ *   3. The workspace / monorepo root (one or two levels up from cwd)
+ *   4. Fall back to bare name and rely on PATH
+ */
+function findBin(name) {
+  const candidates = [
+    resolve(pkgRoot, 'node_modules', '.bin', name),
+    resolve(process.cwd(), 'node_modules', '.bin', name),
+    resolve(process.cwd(), '..', 'node_modules', '.bin', name),
+    resolve(process.cwd(), '..', '..', 'node_modules', '.bin', name),
+  ];
+  return candidates.find(p => existsSync(p)) ?? name;
+}
+
+const viteBin = findBin('vite');
+const tsxBin = findBin('tsx');
 
 if (command === 'dev') {
   spawn(viteBin, ['--config', resolve(pkgRoot, 'vite.config.ts')], {
