@@ -1,0 +1,66 @@
+[
+  {
+    "lucideName": "circle-alert",
+    "exportName": "Alert"
+  },
+  {
+    "lucideName": "check",
+    "exportName": "Check"
+  },
+  {
+    "lucideName": "chevron-down",
+    "exportName": "ChevronDown"
+  },
+  {
+    "lucideName": "chevron-left",
+    "exportName": "ChevronLeft"
+  },
+  {
+    "lucideName": "chevron-right",
+    "exportName": "ChevronRight"
+  },
+  {
+    "lucideName": "chevron-up",
+    "exportName": "ChevronUp"
+  },
+  {
+    "lucideName": "x",
+    "exportName": "Close"
+  },
+  {
+    "lucideName": "info",
+    "exportName": "Info"
+  },
+  {
+    "lucideName": "search",
+    "exportName": "Search"
+  },
+  {
+    "lucideName": "settings",
+    "exportName": "Settings"
+  },
+  {
+    "lucideName": "nfc",
+    "exportName": "Nfc"
+  },
+  {
+    "lucideName": "notebook",
+    "exportName": "Notebook"
+  },
+  {
+    "lucideName": "database",
+    "exportName": "Database"
+  },
+  {
+    "lucideName": "angry",
+    "exportName": "Angry"
+  },
+  {
+    "lucideName": "heart",
+    "exportName": "Heart"
+  },
+  {
+    "lucideName": "hourglass",
+    "exportName": "Hourglass"
+  }
+]
