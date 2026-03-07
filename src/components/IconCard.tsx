@@ -5,6 +5,7 @@
  * Click to open the detail panel. Visual highlight when included in the registry.
  */
 
+import { COLORS } from '../config/colors';
 import type { LucideIcon } from '../hooks/useLucideData';
 import { IconSvg } from './IconSvg';
 
@@ -26,11 +27,11 @@ export function IconCard({ icon, selected, onClick }: IconCardProps) {
         justifyContent: 'center',
         gap: '6px',
         padding: '10px 6px 8px',
-        border: selected ? '2px solid #60a5fa' : '2px solid transparent',
+        border: selected ? `2px solid ${COLORS.selected}` : '2px solid transparent',
         borderRadius: '8px',
-        background: selected ? 'rgba(96,165,250,0.12)' : 'transparent',
+        background: selected ? COLORS.selectedBg : 'transparent',
         cursor: 'pointer',
-        color: selected ? '#60a5fa' : '#d1d5db',
+        color: selected ? COLORS.selected : COLORS.textSecondary,
         transition: 'background 120ms, border-color 120ms, color 120ms',
         minWidth: 0,
       }}

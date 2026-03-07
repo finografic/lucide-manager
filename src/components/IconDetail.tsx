@@ -8,6 +8,7 @@
 
 import { useEffect, useState } from 'react';
 
+import { COLORS } from '../config/colors';
 import type { IconEntry } from '../hooks/useIconsJson';
 import type { LucideIcon } from '../hooks/useLucideData';
 import { IconSvg } from './IconSvg';
@@ -50,8 +51,8 @@ export function IconDetail(
         bottom: 0,
         left: 0,
         right: 0,
-        background: '#1a1a2e',
-        borderTop: '1px solid #2d2d3f',
+        background: COLORS.bgSurface,
+        borderTop: `1px solid ${COLORS.border}`,
         padding: '16px 24px',
         display: 'flex',
         alignItems: 'center',
@@ -71,7 +72,7 @@ export function IconDetail(
           background: 'rgba(255,255,255,0.04)',
           borderRadius: '12px',
           flexShrink: 0,
-          color: selected ? '#60a5fa' : '#d1d5db',
+          color: selected ? COLORS.selected : COLORS.textSecondary,
         }}
       >
         <IconSvg node={icon.node} size={36} />
@@ -79,7 +80,14 @@ export function IconDetail(
 
       {/* Info */}
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: '16px', fontWeight: 600, color: '#f1f5f9', marginBottom: '4px' }}>
+        <div
+          style={{
+            fontSize: '16px',
+            fontWeight: 600,
+            color: COLORS.textPrimary,
+            marginBottom: '4px',
+          }}
+        >
           {icon.name}
         </div>
 
@@ -94,18 +102,18 @@ export function IconDetail(
                   padding: '2px 8px',
                   borderRadius: '999px',
                   background: 'rgba(255,255,255,0.08)',
-                  color: '#94a3b8',
+                  color: COLORS.textMuted,
                 }}
               >
                 {cat}
               </span>
             ))
-            : <span style={{ fontSize: '11px', color: '#64748b' }}>No categories</span>}
+            : <span style={{ fontSize: '11px', color: COLORS.textDim }}>No categories</span>}
         </div>
 
         {/* Export name */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '12px', color: '#64748b' }}>exports as</span>
+          <span style={{ fontSize: '12px', color: COLORS.textDim }}>exports as</span>
 
           {selected && editingName
             ? (
@@ -126,9 +134,9 @@ export function IconDetail(
                   fontFamily: 'monospace',
                   padding: '2px 6px',
                   borderRadius: '4px',
-                  border: '1px solid #60a5fa',
-                  background: '#0f172a',
-                  color: '#f1f5f9',
+                  border: `1px solid ${COLORS.selected}`,
+                  background: COLORS.bgSurfaceDark,
+                  color: COLORS.textPrimary,
                   width: '180px',
                 }}
               />
@@ -140,7 +148,7 @@ export function IconDetail(
                 style={{
                   fontSize: '12px',
                   fontFamily: 'monospace',
-                  color: selected ? '#93c5fd' : '#475569',
+                  color: selected ? COLORS.selected : COLORS.textDimmer,
                   background: 'none',
                   border: 'none',
                   padding: 0,
@@ -165,8 +173,8 @@ export function IconDetail(
             fontWeight: 600,
             fontSize: '14px',
             cursor: 'pointer',
-            background: selected ? '#7f1d1d' : '#1d4ed8',
-            color: selected ? '#fca5a5' : '#bfdbfe',
+            background: selected ? COLORS.removeBg : COLORS.addBg,
+            color: selected ? COLORS.removeText : COLORS.addText,
             transition: 'background 120ms',
           }}
         >
@@ -177,9 +185,9 @@ export function IconDetail(
           style={{
             padding: '8px 14px',
             borderRadius: '8px',
-            border: '1px solid #2d2d3f',
+            border: `1px solid ${COLORS.border}`,
             background: 'transparent',
-            color: '#64748b',
+            color: COLORS.textDim,
             cursor: 'pointer',
             fontSize: '14px',
           }}

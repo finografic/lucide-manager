@@ -10,6 +10,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { CategorySidebar } from './components/CategorySidebar';
 import { IconCard } from './components/IconCard';
 import { IconDetail } from './components/IconDetail';
+import { COLORS } from './config/colors';
 import { useIconsJson } from './hooks/useIconsJson';
 import type { LucideIcon } from './hooks/useLucideData';
 import { useLucideData } from './hooks/useLucideData';
@@ -151,8 +152,8 @@ export function App() {
         display: 'flex',
         flexDirection: 'column',
         height: '100vh',
-        background: '#0f0f1a',
-        color: '#f1f5f9',
+        background: COLORS.bgApp,
+        color: COLORS.textPrimary,
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
       }}
     >
@@ -163,11 +164,13 @@ export function App() {
           alignItems: 'center',
           gap: '16px',
           padding: '12px 20px',
-          borderBottom: '1px solid #2d2d3f',
+          borderBottom: `1px solid ${COLORS.border}`,
           flexShrink: 0,
         }}
       >
-        <div style={{ fontWeight: 700, fontSize: '15px', color: '#f1f5f9', flexShrink: 0 }}>
+        <div
+          style={{ fontWeight: 700, fontSize: '15px', color: COLORS.textPrimary, flexShrink: 0 }}
+        >
           Lucide Manager
         </div>
 
@@ -203,9 +206,9 @@ export function App() {
               width: '100%',
               padding: '7px 12px 7px 32px',
               borderRadius: '8px',
-              border: '1px solid #2d2d3f',
-              background: '#1a1a2e',
-              color: '#f1f5f9',
+              border: `1px solid ${COLORS.border}`,
+              background: COLORS.bgSurface,
+              color: COLORS.textPrimary,
               fontSize: '14px',
               outline: 'none',
               boxSizing: 'border-box',
@@ -221,7 +224,7 @@ export function App() {
                 transform: 'translateY(-50%)',
                 background: 'none',
                 border: 'none',
-                color: '#64748b',
+                color: COLORS.textDim,
                 cursor: 'pointer',
                 fontSize: '16px',
                 lineHeight: 1,
@@ -234,16 +237,16 @@ export function App() {
         </div>
 
         {/* Status */}
-        <div style={{ fontSize: '13px', color: '#64748b', flexShrink: 0, marginLeft: 'auto' }}>
+        <div style={{ fontSize: '13px', color: COLORS.textDim, flexShrink: 0, marginLeft: 'auto' }}>
           {saving
-            ? <span style={{ color: '#fbbf24' }}>Saving…</span>
+            ? <span style={{ color: COLORS.saving }}>Saving…</span>
             : saveError
-            ? <span style={{ color: '#f87171' }}>Save failed</span>
+            ? <span style={{ color: COLORS.error }}>Save failed</span>
             : (
               <span>
-                <span style={{ color: '#34d399', fontWeight: 600 }}>{entries.length}</span>
+                <span style={{ color: COLORS.included, fontWeight: 600 }}>{entries.length}</span>
                 {' included · '}
-                <span style={{ color: '#94a3b8' }}>{allIcons.length || '…'}</span>
+                <span style={{ color: COLORS.textMuted }}>{allIcons.length || '…'}</span>
                 {' total'}
               </span>
             )}
@@ -279,7 +282,7 @@ export function App() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   height: '200px',
-                  color: '#475569',
+                  color: COLORS.textDimmer,
                 }}
               >
                 Loading icons…
@@ -287,7 +290,7 @@ export function App() {
             )
             : lucideError
             ? (
-              <div style={{ padding: '24px', color: '#f87171' }}>
+              <div style={{ padding: '24px', color: COLORS.error }}>
                 Failed to load Lucide data: {lucideError}
               </div>
             )
@@ -299,7 +302,7 @@ export function App() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   height: '200px',
-                  color: '#475569',
+                  color: COLORS.textDimmer,
                 }}
               >
                 No icons match &ldquo;{query}&rdquo;
@@ -307,7 +310,7 @@ export function App() {
             )
             : (
               <>
-                <div style={{ fontSize: '12px', color: '#475569', marginBottom: '12px' }}>
+                <div style={{ fontSize: '12px', color: COLORS.textDimmer, marginBottom: '12px' }}>
                   {filteredIcons.length} icon{filteredIcons.length !== 1 ? 's' : ''}
                   {query
                     ? ` matching "${query}"`

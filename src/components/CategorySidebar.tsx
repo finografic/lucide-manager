@@ -7,6 +7,8 @@
 
 import React from 'react';
 
+import { COLORS } from '../config/colors';
+
 interface Category {
   name: string;
   label: string;
@@ -37,8 +39,8 @@ export function CategorySidebar({
     padding: '5px 10px',
     borderRadius: '6px',
     cursor: 'pointer',
-    background: active ? 'rgba(96,165,250,0.15)' : 'transparent',
-    color: active ? '#60a5fa' : '#94a3b8',
+    background: active ? COLORS.activeBg : 'transparent',
+    color: active ? COLORS.active : COLORS.textMuted,
     fontSize: '13px',
     border: 'none',
     width: '100%',
@@ -52,7 +54,7 @@ export function CategorySidebar({
         width: '200px',
         flexShrink: 0,
         overflowY: 'auto',
-        borderRight: '1px solid #2d2d3f',
+        borderRight: `1px solid ${COLORS.border}`,
         padding: '12px 8px',
         display: 'flex',
         flexDirection: 'column',
@@ -63,7 +65,7 @@ export function CategorySidebar({
       <div
         style={{
           fontSize: '11px',
-          color: '#475569',
+          color: COLORS.textDimmer,
           padding: '4px 10px 6px',
           fontWeight: 600,
           letterSpacing: '0.05em',
@@ -86,8 +88,8 @@ export function CategorySidebar({
       <button
         style={{
           ...itemStyle(showIncludedOnly),
-          color: showIncludedOnly ? '#34d399' : '#94a3b8',
-          background: showIncludedOnly ? 'rgba(52,211,153,0.12)' : 'transparent',
+          color: showIncludedOnly ? COLORS.included : COLORS.textMuted,
+          background: showIncludedOnly ? COLORS.includedBg : 'transparent',
         }}
         onClick={onToggleIncluded}
       >
@@ -99,7 +101,7 @@ export function CategorySidebar({
       <div
         style={{
           fontSize: '11px',
-          color: '#475569',
+          color: COLORS.textDimmer,
           padding: '12px 10px 6px',
           fontWeight: 600,
           letterSpacing: '0.05em',
