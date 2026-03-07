@@ -31,8 +31,14 @@ const pkgRoot = dirname(dirname(fileURLToPath(import.meta.url)));
  */
 function findBin(name) {
   const candidates = [
+    // pnpm: bins for package deps live as siblings to the package in the store
+    // e.g. .pnpm/<pkg>/node_modules/.bin/  (one dir up from @scope/pkg)
+    resolve(pkgRoot, '..', '.bin', name),
+    // pnpm: sometimes nested one level deeper (scoped packages)
     resolve(pkgRoot, 'node_modules', '.bin', name),
+    // host package's own node_modules (process.cwd() = design-system root)
     resolve(process.cwd(), 'node_modules', '.bin', name),
+    // workspace / monorepo root (one or two levels up from host package)
     resolve(process.cwd(), '..', 'node_modules', '.bin', name),
     resolve(process.cwd(), '..', '..', 'node_modules', '.bin', name),
   ];
