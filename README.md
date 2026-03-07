@@ -1,6 +1,7 @@
-# @finografic/lucide-manager
+# 🎨 @finografic/lucide-manager
 
-A local developer tool for managing a [Lucide](https://lucide.dev) icon registry in a design system package. Browse all 1500+ Lucide icons in a fast picker UI, select the ones you want, and generate strongly-typed TypeScript registry files from the result.
+> A local developer tool for managing a [Lucide](https://lucide.dev) icon registry in a design system package.
+> Browse all 1500+ Lucide icons in a fast picker UI, select the ones you want, and generate strongly-typed TypeScript registry files from the result.
 
 **This is a `devDependency` — not a runtime library.** It is installed in the host package (e.g. your design system) and launched from there. It is never imported or bundled into production code.
 
