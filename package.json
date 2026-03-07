@@ -2,7 +2,7 @@
   "name": "@finografic/lucide-manager",
   "type": "module",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "packageManager": "pnpm@10.8.0",
   "description": "Browse, select, and manage Lucide icons for your design system registry.",
   "homepage": "https://github.com/finografic/lucide-manager",
