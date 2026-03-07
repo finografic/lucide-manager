@@ -323,8 +323,8 @@ export function App() {
                 <div
                   style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(84px, 1fr))',
-                    gap: '4px',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(88px, 1fr))',
+                    gap: '6px',
                   }}
                 >
                   {filteredIcons.map(icon => (

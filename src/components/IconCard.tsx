@@ -44,7 +44,7 @@ export function IconCard({ icon, isFocused, isIncluded, onClick }: IconCardProps
         alignItems: 'center',
         justifyContent: 'center',
         gap: '6px',
-        padding: '10px 6px 8px',
+        padding: '1.2rem 6px 0.8rem',
         border: `2px solid ${borderColor}`,
         borderRadius: '8px',
         background: bgColor,
@@ -64,7 +64,9 @@ export function IconCard({ icon, isFocused, isIncluded, onClick }: IconCardProps
         }
       }}
     >
-      <IconSvg node={icon.node} size={20} />
+      <div style={{ padding: '0.1rem 0.6rem 0.1rem' }}>
+        <IconSvg node={icon.node} size={28} />
+      </div>
       <span
         style={{
           fontSize: '10px',
