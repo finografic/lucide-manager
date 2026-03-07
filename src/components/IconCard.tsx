@@ -11,11 +11,29 @@ import { IconSvg } from './IconSvg';
 
 interface IconCardProps {
   icon: LucideIcon;
-  selected: boolean;
+  isFocused: boolean;
+  isIncluded: boolean;
   onClick: (icon: LucideIcon) => void;
 }
 
-export function IconCard({ icon, selected, onClick }: IconCardProps) {
+export function IconCard({ icon, isFocused, isIncluded, onClick }: IconCardProps) {
+  const borderColor = isFocused
+    ? COLORS.active
+    : isIncluded
+    ? COLORS.included
+    : 'transparent';
+  const bgColor = isFocused
+    ? COLORS.activeBg
+    : isIncluded
+    ? COLORS.includedBg
+    : 'transparent';
+  const textColor = isFocused
+    ? COLORS.selected
+    : isIncluded
+    ? COLORS.included
+    : COLORS.textSecondary;
+  const isHighlighted = isFocused || isIncluded;
+
   return (
     <button
       onClick={() => onClick(icon)}
@@ -27,21 +45,21 @@ export function IconCard({ icon, selected, onClick }: IconCardProps) {
         justifyContent: 'center',
         gap: '6px',
         padding: '10px 6px 8px',
-        border: selected ? `2px solid ${COLORS.selected}` : '2px solid transparent',
+        border: `2px solid ${borderColor}`,
         borderRadius: '8px',
-        background: selected ? COLORS.selectedBg : 'transparent',
+        background: bgColor,
         cursor: 'pointer',
-        color: selected ? COLORS.selected : COLORS.textSecondary,
+        color: textColor,
         transition: 'background 120ms, border-color 120ms, color 120ms',
         minWidth: 0,
       }}
       onMouseEnter={e => {
-        if (!selected) {
+        if (!isHighlighted) {
           (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.06)';
         }
       }}
       onMouseLeave={e => {
-        if (!selected) {
+        if (!isHighlighted) {
           (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
         }
       }}

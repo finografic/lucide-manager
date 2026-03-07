@@ -331,7 +331,8 @@ export function App() {
                     <IconCard
                       key={icon.name}
                       icon={icon}
-                      selected={isSelected(icon.name)}
+                      isFocused={focusedIcon?.name === icon.name}
+                      isIncluded={isSelected(icon.name)}
                       onClick={setFocusedIcon}
                     />
                   ))}

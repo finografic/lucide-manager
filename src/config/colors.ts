@@ -21,9 +21,9 @@ export const COLORS = {
   textDim: '#64748b', // status bar, close button, "exports as"
   textDimmer: '#475569', // empty states, grid count, section headings
 
-  // ── Selected  (icon is in the registry) ─────────────────────────────────────
+  // ── Selected  (icon is focused / open in detail panel) ──────────────────────
   selected: '#c5d8f8', // near-white blue — border, icon stroke, label
-  selectedBg: 'rgba(197,216,248,0.12)', // subtle tint behind selected card
+  selectedBg: 'rgba(197,216,248,0.12)', // subtle tint behind focused card
 
   // ── Active  (sidebar navigation) ────────────────────────────────────────────
   active: '#60a5fa', // active category / "All" item

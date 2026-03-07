@@ -27,6 +27,15 @@
     "icon-picker",
     "design-system"
   ],
+  "files": [
+    "bin",
+    "src",
+    "scripts",
+    "public",
+    "index.html",
+    "icons.json",
+    "vite.config.ts"
+  ],
   "bin": {
     "lucide-manager": "./bin/lucide-manager.js"
   },
