@@ -10,7 +10,14 @@ import tseslint from 'typescript-eslint';
 
 const config: Linter.Config[] = [
   {
-    ignores: ['**/node_modules/**', '**/dist/**', '**/.cursor/**', '**/*.min.*', '**/*.map'],
+    ignores: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/.cursor/**',
+      '**/.claude/**',
+      '**/*.min.*',
+      '**/*.map',
+    ],
   },
 
   js.configs.recommended,
@@ -38,6 +45,7 @@ const config: Linter.Config[] = [
       },
       globals: {
         ...globals.node,
+        ...globals.browser,
       },
     },
     plugins: {
