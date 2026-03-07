@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# Self-dev mode: local test data (generated when run from its own root)
+dev/
+
 # Build outputs
 dist/
 build/
