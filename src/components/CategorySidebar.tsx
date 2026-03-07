@@ -36,7 +36,7 @@ export function CategorySidebar({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '5px 10px',
+    padding: '0.4rem 0.6rem',
     borderRadius: '6px',
     cursor: 'pointer',
     background: active ? COLORS.activeBg : 'transparent',
@@ -51,14 +51,14 @@ export function CategorySidebar({
   return (
     <aside
       style={{
-        width: '200px',
+        width: '220px',
         flexShrink: 0,
         overflowY: 'auto',
         borderRight: `1px solid ${COLORS.border}`,
-        padding: '12px 8px',
+        padding: '1rem 0.6rem',
         display: 'flex',
         flexDirection: 'column',
-        gap: '2px',
+        gap: '6px',
       }}
     >
       {/* View section */}
@@ -102,7 +102,7 @@ export function CategorySidebar({
         style={{
           fontSize: '11px',
           color: COLORS.textDimmer,
-          padding: '12px 10px 6px',
+          padding: '0.4rem 0.6rem 0.4rem',
           fontWeight: 600,
           letterSpacing: '0.05em',
           textTransform: 'uppercase',

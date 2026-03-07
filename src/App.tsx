@@ -163,15 +163,31 @@ export function App() {
           display: 'flex',
           alignItems: 'center',
           gap: '16px',
-          padding: '12px 20px',
+          padding: '14px 24px 14px 14px',
           borderBottom: `1px solid ${COLORS.border}`,
           flexShrink: 0,
         }}
       >
         <div
-          style={{ fontWeight: 700, fontSize: '15px', color: COLORS.textPrimary, flexShrink: 0 }}
+          style={{
+            fontWeight: 700,
+            fontSize: '15px',
+            color: COLORS.textPrimary,
+            flexShrink: 0,
+            padding: '0 0.4rem 0.1rem 0',
+          }}
         >
-          Lucide Manager
+          <img
+            src="/lucide.png"
+            alt="Lucide Manager"
+            style={{
+              width: '24px',
+              height: '24px',
+              verticalAlign: 'middle',
+              marginRight: '0.4rem',
+            }}
+          />
+          <span style={{ verticalAlign: 'middle' }}>Lucide Manager</span>
         </div>
 
         {/* Search */}
@@ -244,10 +260,12 @@ export function App() {
             ? <span style={{ color: COLORS.error }}>Save failed</span>
             : (
               <span>
-                <span style={{ color: COLORS.included, fontWeight: 600 }}>{entries.length}</span>
-                {' included · '}
+                <span style={{ color: COLORS.included, fontWeight: 600 }}>
+                  {entries.length}
+                  <span style={{ opacity: 0.55 }}>{' included · '}</span>
+                </span>
                 <span style={{ color: COLORS.textMuted }}>{allIcons.length || '…'}</span>
-                {' total'}
+                <span style={{ color: COLORS.textMuted }}>{' total'}</span>
               </span>
             )}
         </div>

@@ -5,7 +5,7 @@
 
 **This is a `devDependency` — not a runtime library.** It is installed in the host package (e.g. your design system) and launched from there. It is never imported or bundled into production code.
 
----
+![Lucide Manager screenshot](./screenshot.png)
 
 ## How it works
 
