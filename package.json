@@ -35,7 +35,7 @@
     "react-dom": "^18.3.1"
   },
   "scripts": {
-    "========== DEV": "=======================================================",
+    "---------- DEV": "-------------------------------------------------------",
     "dev": "vite",
     "·········· BUILD": "·····················································",
     "build": "vite build",
@@ -53,8 +53,6 @@
     "·········· UTILS": "·····················································",
     "tsc.debug": "tsc --pretty --project tsconfig.json",
     "typecheck": "tsc --project tsconfig.json --noEmit",
-    "·········· HOOKS": "·····················································",
-    "prepare": "simple-git-hooks",
     "·········· PACKAGES": "··················································",
     "update.eslint-config": "pnpm update @finografic/eslint-config --latest",
     "upgrade.deps.all": "pnpm update --latest",
@@ -66,7 +64,9 @@
     "release.check": "pnpm format.check && pnpm lint.fix && pnpm typecheck && pnpm test.run",
     "release.publish": "pnpm publish --registry https://npm.pkg.github.com",
     "·········· REGISTRIES": "··············································",
-    "view.registry.github": "pnpm view @finografic/lucide-manager --registry=https://npm.pkg.github.com"
+    "view.registry.github": "pnpm view @finografic/lucide-manager --registry=https://npm.pkg.github.com",
+    "·········· HOOKS": "·····················································",
+    "prepare": "simple-git-hooks"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.2.0",
