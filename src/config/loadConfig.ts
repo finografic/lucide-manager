@@ -31,7 +31,9 @@ export interface LucideManagerConfig {
 // The root of this package — two levels up from src/config/
 const PKG_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
-export function loadConfig(startDir: string = process.cwd()): LucideManagerConfig {
+export function loadConfig(
+  startDir: string = process.env['LUCIDE_MANAGER_HOST_CWD'] ?? process.cwd(),
+): LucideManagerConfig {
   const cwd = path.resolve(startDir);
 
   // ── Self-dev mode ──────────────────────────────────────────────────────────

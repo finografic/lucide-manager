@@ -52,6 +52,9 @@ if (command === 'dev') {
   spawn(viteBin, ['--config', resolve(pkgRoot, 'vite.config.ts')], {
     stdio: 'inherit',
     cwd: pkgRoot,
+    // Pass the host's cwd so loadConfig() inside the Vite process can find
+    // lucide-manager.config.json even though Vite runs with cwd = pkgRoot.
+    env: { ...process.env, LUCIDE_MANAGER_HOST_CWD: process.cwd() },
   });
 } else if (command === 'generate') {
   spawn(tsxBin, [resolve(pkgRoot, 'scripts', 'generate-icons-ts.ts')], {
