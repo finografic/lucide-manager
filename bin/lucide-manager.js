@@ -6,7 +6,7 @@
  * CLI shim for @finografic/lucide-manager.
  *
  * Usage:
- *   lucide-manager dev   → starts the Vite icon picker at localhost:5199
+ *   lucide-manager   → starts the Vite icon picker
  *
  * The picker UI talks to a local Hono server that the host package provides.
  * Start the server separately via: pnpm icons  (from the host package root)
@@ -18,8 +18,6 @@ import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
-
-const [, , command] = process.argv;
 
 // Resolve the root of the lucide-manager package itself (not the host's cwd)
 const pkgRoot = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -44,17 +42,10 @@ function findBin(name) {
 
 const viteBin = findBin('vite');
 
-if (command === 'dev' || command === 'config') {
-  spawn(viteBin, ['--config', resolve(pkgRoot, 'vite.config.ts')], {
-    stdio: 'inherit',
-    cwd: pkgRoot,
-    // Pass the host's cwd so loadConfig() inside the Vite process can find
-    // lucide-manager.config.json even though Vite runs with cwd = pkgRoot.
-    env: { ...process.env, LUCIDE_MANAGER_HOST_CWD: process.cwd() },
-  });
-} else {
-  const label = command ? `"${command}"` : '(none)';
-  process.stderr.write(`lucide-manager: unknown command ${label}\n`);
-  process.stderr.write('Usage: lucide-manager dev\n');
-  process.exit(1);
-}
+spawn(viteBin, ['--config', resolve(pkgRoot, 'vite.config.ts')], {
+  stdio: 'inherit',
+  cwd: pkgRoot,
+  // Pass the host's cwd so loadConfig() inside the Vite process can find
+  // lucide-manager.config.json even though Vite runs with cwd = pkgRoot.
+  env: { ...process.env, LUCIDE_MANAGER_HOST_CWD: process.cwd() },
+});
