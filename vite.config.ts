@@ -16,6 +16,6 @@ export default defineConfig({
   server: {
     strictPort: false, // allow auto-increment
     port: SERVER.port,
-    open: SERVER.open,
+    open: `http://localhost:${SERVER.port}/`,
   },
 });
