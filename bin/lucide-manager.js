@@ -44,7 +44,7 @@ function findBin(name) {
 
 const viteBin = findBin('vite');
 
-if (command === 'dev') {
+if (command === 'dev' || command === 'config') {
   spawn(viteBin, ['--config', resolve(pkgRoot, 'vite.config.ts')], {
     stdio: 'inherit',
     cwd: pkgRoot,
