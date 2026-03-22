@@ -128,6 +128,8 @@ const config: Linter.Config[] = [
     },
     rules: {
       ...markdownlintPlugin.configs.recommended.rules,
+      'markdownlint/md001': 'off', // heading increment
+      'markdownlint/md004': 'off', // Unordered list style
       'markdownlint/md012': 'off', // Multiple consecutive blank lines
       'markdownlint/md013': 'off', // Line length
       'markdownlint/md024': 'off', // Duplicate headings
@@ -138,8 +140,11 @@ const config: Linter.Config[] = [
       'markdownlint/md040': 'off', // Fenced code language
       'markdownlint/md041': 'off', // First line heading
       'markdownlint/md043': 'off', // Required heading structure
+      'markdownlint/md045': 'off', // images require alt text
 
       // Formatting consistency
+      'stylistic/no-multiple-empty-lines': ['error', { max: 1, maxBOF: 0, maxEOF: 0 }],
+      'stylistic/no-trailing-spaces': 'error',
       'stylistic/no-multi-spaces': ['error', { exceptions: { Property: true } }],
     },
   },
