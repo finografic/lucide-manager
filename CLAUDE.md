@@ -1,24 +1,8 @@
+@AGENTS.md
+
 # Claude Code Instructions
 
-Rules are canonical in `.github/instructions/` and shared across Claude Code, Cursor, and GitHub Copilot.
-
-## Rule Files
-
-- [General](/.github/instructions/00-general.instructions.md)
-- [File Naming](/.github/instructions/01-file-naming.instructions.md)
-- [TypeScript Patterns](/.github/instructions/02-typescript-patterns.instructions.md)
-- [Provider & Context Patterns](/.github/instructions/03-provider-context-patterns.instructions.md)
-- [ESLint & Code Style](/.github/instructions/04-eslint-code-style.instructions.md)
-- [Documentation](/.github/instructions/05-documentation.instructions.md)
-- [Modern TypeScript Patterns](/.github/instructions/06-modern-typescript-patterns.instructions.md)
-- [Variable Naming](/.github/instructions/07-variable-naming.instructions.md)
-- [README Standards](/.github/instructions/08-readme-standards.instructions.md)
-
-## Project Rules
-
-Project-specific rules live in `.github/instructions/project/`. Add `*.instructions.md` files there and link them here.
-
-## Project-Specific
+## Rules - Claude
 
 - IMPORTANT: NEVER include `Co-Authored-By` lines in commit messages. Not ever, not for any reason.
 
@@ -34,11 +18,19 @@ Claude Code maintains a lightweight session log at `.claude/memory.md` (gitignor
 - Brief description of the task
 - A checklist of planned steps (`- [ ]` / `- [x]`)
 
-Update the checklist as work progresses (check off items, add new ones if scope changes).
+**During the session — write early and often. Do not defer.**
 
-**On session end (or after significant work):** Collapse the `## Current Session` block into a normal `## <date>` entry (a 2-4 line summary), and move it below the previous sessions. Keep only the **last 5 session entries** (delete older ones when appending).
+- After completing any checklist item: mark it `- [x]` in memory.md immediately.
+- After discovering new steps: append them to the checklist right away.
+- Every ~20–30 minutes of active work: re-save the current checklist state even if nothing major changed.
+- After a git commit: update the checklist to reflect what was just committed. Commits are milestone markers — treat them as mandatory checkpoint triggers.
 
-Keep only the **last 5 sessions** in the file (delete older entries when appending). Each entry should be 2-4 lines max — this is a breadcrumb trail, not a journal.
+The goal: a machine shutdown should lose at most one small task worth of context, never an entire session.
+
+**On session end:** Collapse the `## Current Session` block into a normal `## <date>` entry (a 2-4 line summary), and move it below the previous sessions.
+
+Keep only the **last 5 sessions** in the file (delete older entries when appending).
+Each entry should be 2-4 lines max — this is a breadcrumb trail, not a journal.
 
 ## Handoff Document
 

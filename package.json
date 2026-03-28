@@ -3,7 +3,6 @@
   "type": "module",
   "version": "0.7.0",
   "private": false,
-  "packageManager": "pnpm@10.8.0",
   "description": "Browse, select, and manage Lucide icons for your design system registry.",
   "homepage": "https://github.com/finografic/lucide-manager",
   "repository": {
@@ -54,10 +53,6 @@
     "·········· FORMATTING": "·················································",
     "format.check": "dprint check",
     "format.fix": "dprint fmt --diff",
-    "·········· UTILS": "·····················································",
-    "tsc.debug": "tsc --pretty --project tsconfig.json",
-    "typecheck": "tsc --project tsconfig.json --noEmit",
-    "prepare": "simple-git-hooks",
     "·········· PUBLISH.GITHUB": "············································",
     "release.github.patch": "pnpm run release.check && pnpm version patch && git push --follow-tags",
     "release.github.minor": "pnpm run release.check && pnpm version minor && git push --follow-tags",
@@ -68,7 +63,11 @@
     "·········· PACKAGES": "··················································",
     "update.eslint-config": "pnpm update @finografic/eslint-config --latest",
     "update.dprint-config": "pnpm update @finografic/dprint-config --latest",
-    "upgrade.deps.all": "pnpm update --latest"
+    "upgrade.deps.all": "pnpm update --latest",
+    "·········· UTILS": "·····················································",
+    "tsc.debug": "tsc --pretty --project tsconfig.json",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "prepare": "simple-git-hooks"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.4"
@@ -103,20 +102,26 @@
     "vite": "^7.3.1",
     "vitest": "^4.0.18"
   },
+  "packageManager": "pnpm@10.32.1",
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": [
-      "dprint fmt --allow-no-files",
-      "eslint --fix"
+      "eslint --fix",
+      "dprint fmt --allow-no-files"
     ],
     "*.md": [
-      "dprint fmt --allow-no-files",
-      "eslint --fix"
+      "eslint --fix",
+      "dprint fmt --allow-no-files"
     ],
     "*.{json,jsonc,yml,yaml,toml}": [
       "dprint fmt --allow-no-files"
     ]
   },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged --allow-empty"
+    "pre-commit": "npx lint-staged --allow-empty && dprint check && pnpm typecheck"
   }
 }
