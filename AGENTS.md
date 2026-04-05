@@ -1,22 +1,9 @@
 # AGENTS.md - AI Assistant Guide
 
+## Rules - General
+
 Rules are canonical in `.github/instructions/` and shared across Claude Code, Cursor, and GitHub Copilot.
-
-## Rules - Markdown Tables
-
-- Padded pipes: one space on each side of every `|`, including the separator row.
-- Align column widths so all cells in the same column are equal width.
-
-## Rule Files
-
-Project-specific instructions live in `.github/instructions/project/`:
-
-- [Design System](.github/instructions/project/design-system.instructions.md)
-- [SVA components (slot recipes)](.github/instructions/project/sva-components.instructions.md)
-- [CVA components (atomic recipes)](.github/instructions/project/cva-components.instructions.md)
-
-> Note: the shared numbered rule set (`00-general` … `08-readme`) still lives at `.github/instructions/`. The full monorepo instructions tree has not been copied here yet.
-> Until it is, follow general TypeScript, ESLint, and naming conventions from prior context.
+Follow general TypeScript, ESLint, and naming conventions from prior context.
 
 - [General](/.github/instructions/00-general.instructions.md)
 - [File Naming](/.github/instructions/01-file-naming.instructions.md)
@@ -27,13 +14,16 @@ Project-specific instructions live in `.github/instructions/project/`:
 - [Modern TypeScript Patterns](/.github/instructions/06-modern-typescript-patterns.instructions.md)
 - [Variable Naming](/.github/instructions/07-variable-naming.instructions.md)
 - [README Standards](/.github/instructions/08-readme-standards.instructions.md)
+- [Picocolors CLI styling](/.github/instructions/09-picocolors-cli-styling.instructions.md)
+- [Git Policy](/.github/instructions/10-git-policy.instructions.md)
 
-## Component Refactor Status
+## Rules - Project-Specific
 
-See **[TODO_COMPONENT_REFACTORS.md](docs/TODO_COMPONENT_REFACTORS.md)** for the completed refactor checklist.
-All items are checked off. The file is kept as a reference log.
+Project-specific rules live in `.github/instructions/project/`:
 
-## Project-Specific
+- [Design System](.github/instructions/project/design-system.instructions.md)
+- [SVA components (slot recipes)](.github/instructions/project/sva-components.instructions.md)
+- [CVA components (atomic recipes)](.github/instructions/project/cva-components.instructions.md)
 
 - This is a **standalone installable package** (`@finografic/design-system`), not a monorepo workspace.
 - Published to GitHub Packages (`https://npm.pkg.github.com`).
@@ -42,6 +32,18 @@ All items are checked off. The file is kept as a reference log.
 - The `panda.preset` entry must always build with `platform: 'node'` in tsdown.
 - Never add `watch: true` to `panda.config.ts` — it causes `panda codegen` to hang.
 - **`dist/` is committed** — this is a published package library; `dist/` must be included. After every component refactor: run `pnpm build` from `packages/design-system/`, then commit `dist/` with `chore(dist): build — <summary>`.
+
+## Rules - Markdown Tables
+
+- Padded pipes: one space on each side of every `|`, including the separator row.
+- Align column widths so all cells in the same column are equal width.
+
+## Git Policy
+
+- IMPORTANT: NEVER include `Co-Authored-By` lines in commit messages. Not ever, not for any reason.
+- [Git — Commits](/.github/instructions/10-git-policy.instructions.md#commits)
+- [Git — Releases](/.github/instructions/10-git-policy.instructions.md#releases)
+-
 
 ## Learned User Preferences
 

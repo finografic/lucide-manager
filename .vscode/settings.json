@@ -40,8 +40,10 @@
   },
 
   "markdownlint.config": {
-    "default": true,
-    "MD013": false,
+    "default": true, // Default rules
+    "MD001": false, // Heading levels should only increment by one level at a time
+    "MD013": false, // Line length
+    "MD024": false, // Duplicate headings
     "MD025": false, // Allow multiple top-level headings (useful for TODO files)
     "MD026": false, // Allow trailing punctuation in headings ':'
     "MD040": false, // Don't require language for code blocks
