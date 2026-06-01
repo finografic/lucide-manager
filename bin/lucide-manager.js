@@ -40,12 +40,43 @@ function findBin(name) {
   return candidates.find(p => existsSync(p)) ?? name;
 }
 
-const viteBin = findBin('vite');
+function parseCliArgs(argv) {
+  const viteArgs = [];
+  let openOverride;
 
-spawn(viteBin, ['--config', resolve(pkgRoot, 'vite.config.ts')], {
+  for (const arg of argv) {
+    if (arg === '--no-open') {
+      openOverride = 'false';
+      continue;
+    }
+
+    if (arg === '--open') {
+      openOverride = 'true';
+      continue;
+    }
+
+    if (arg.startsWith('--open=')) {
+      openOverride = arg.slice('--open='.length);
+      continue;
+    }
+
+    viteArgs.push(arg);
+  }
+
+  return { openOverride, viteArgs };
+}
+
+const viteBin = findBin('vite');
+const { openOverride, viteArgs } = parseCliArgs(process.argv.slice(2));
+
+spawn(viteBin, ['--config', resolve(pkgRoot, 'vite.config.ts'), ...viteArgs], {
   stdio: 'inherit',
   cwd: pkgRoot,
   // Pass the host's cwd so loadConfig() inside the Vite process can find
   // lucide-manager.config.json even though Vite runs with cwd = pkgRoot.
-  env: { ...process.env, LUCIDE_MANAGER_HOST_CWD: process.cwd() },
+  env: {
+    ...process.env,
+    LUCIDE_MANAGER_HOST_CWD: process.cwd(),
+    ...(openOverride === undefined ? {} : { LUCIDE_MANAGER_OPEN: openOverride }),
+  },
 });

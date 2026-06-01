@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 import { SERVER } from './src/config/defaults';
 import { loadConfig } from './src/config/loadConfig';
 
-const { serverUrl } = loadConfig();
+const { serverUrl, open } = loadConfig();
 
 export default defineConfig({
   plugins: [react()],
@@ -16,6 +16,6 @@ export default defineConfig({
   server: {
     strictPort: false, // allow auto-increment
     port: SERVER.port,
-    open: `http://localhost:${SERVER.port}/`,
+    open: open ? `http://localhost:${SERVER.port}/` : false,
   },
 });
