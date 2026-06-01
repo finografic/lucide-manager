@@ -45,89 +45,77 @@
     "build": "vite build",
     "·········· TESTING": "···················································",
     "test": "vitest",
-    "test.run": "vitest run",
-    "test.coverage": "vitest run --coverage",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "·········· LINTING": "···················································",
-    "lint": "eslint .",
-    "lint.fix": "eslint . --fix",
+    "lint": "oxlint -c oxlint.config.ts",
+    "lint:fix": "oxlint -c oxlint.config.ts --fix",
+    "lint:ci": "oxlint -c oxlint.config.ts --quiet",
+    "lint:md": "md-lint",
+    "lint:md:fix": "md-lint --fix",
     "·········· FORMATTING": "·················································",
-    "format.check": "dprint check",
-    "format.fix": "dprint fmt --diff",
-    "·········· PUBLISH.GITHUB": "············································",
-    "release.github.patch": "pnpm run release.check && pnpm version patch && git push --follow-tags",
-    "release.github.minor": "pnpm run release.check && pnpm version minor && git push --follow-tags",
-    "release.github.major": "pnpm run release.check && pnpm version major && git push --follow-tags",
-    "release.check": "pnpm format.check && pnpm lint.fix && pnpm typecheck && pnpm test.run",
-    "release.publish": "pnpm publish --registry https://npm.pkg.github.com",
-    "view.registry.github": "pnpm view @finografic/lucide-manager --registry=https://npm.pkg.github.com",
+    "format:check": "oxfmt --check",
+    "format:fix": "oxfmt",
+    "·········· PUBLISH:GITHUB": "············································",
+    "release:github:patch": "pnpm run release:check && pnpm version patch && git push --follow-tags",
+    "release:github:minor": "pnpm run release:check && pnpm version minor && git push --follow-tags",
+    "release:github:major": "pnpm run release:check && pnpm version major && git push --follow-tags",
+    "release:check": "pnpm format:check && pnpm lint.fix && pnpm typecheck && pnpm test:run",
+    "release:publish": "pnpm publish --registry https://npm.pkg.github.com",
+    "view:registry:github": "pnpm view @finografic/lucide-manager --registry=https://npm.pkg.github.com",
     "·········· PACKAGES": "··················································",
-    "update.eslint-config": "pnpm update @finografic/eslint-config --latest",
-    "update.dprint-config": "pnpm update @finografic/dprint-config --latest",
-    "upgrade.deps.all": "pnpm update --latest",
+    "update:oxc-config": "pnpm update @finografic/oxc-config --latest && pnpm update oxfmt --latest && pnpm update oxlint --latest",
+    "upgrade:deps:all": "pnpm update --latest",
     "·········· UTILS": "·····················································",
-    "tsc.debug": "tsc --pretty --project tsconfig.json",
+    "tsc:debug": "tsc --pretty --project tsconfig.json",
     "typecheck": "tsc --project tsconfig.json --noEmit",
-    "prepare": "simple-git-hooks"
+    "prepare": "husky"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.4"
   },
   "peerDependencies": {
-    "vite": ">=5",
     "react": ">=18",
-    "react-dom": ">=18"
+    "react-dom": ">=18",
+    "vite": ">=5"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.0.2",
     "@commitlint/config-conventional": "^21.0.2",
-    "@eslint/js": "^9.39.2",
-    "@finografic/dprint-config": "^0.12.4",
+    "@finografic/md-lint": "^0.16.0",
+    "@finografic/oxc-config": "^2.6.2",
     "@finografic/project-scripts": "^1.3.3",
-    "@stylistic/eslint-plugin": "^5.6.1",
     "@types/node": "24.12.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.5",
-    "@typescript-eslint/eslint-plugin": "^8.51.0",
-    "@typescript-eslint/parser": "^8.51.0",
-    "dprint": "^0.51.1",
-    "eslint": "9.39.2",
-    "eslint-plugin-markdownlint": "^0.9.0",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
     "globals": "^17.3.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.6",
+    "oxfmt": "^0.52.0",
+    "oxlint": "^1.67.0",
+    "oxlint-tsgolint": "^0.23.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "simple-git-hooks": "^2.13.1",
     "tsdown": "^0.22.1",
     "typescript": "6.0.2",
-    "typescript-eslint": "^8.51.0",
     "vite": "^7.3.1",
     "vitest": "^4.1.7"
+  },
+  "engines": {
+    "node": ">=24.3.0"
   },
   "packageManager": "pnpm@10.32.1",
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": [
-      "eslint --fix",
-      "dprint fmt --allow-no-files"
+      "oxfmt --no-error-on-unmatched-pattern",
+      "oxlint -c oxlint.config.ts --fix --no-error-on-unmatched-pattern --ignore-pattern '_templates/package-types/**'"
     ],
     "*.md": [
-      "eslint --fix",
-      "dprint fmt --allow-no-files"
+      "oxfmt --no-error-on-unmatched-pattern",
+      "md-lint --fix"
     ],
     "*.{json,jsonc,yml,yaml,toml}": [
-      "dprint fmt --allow-no-files"
+      "oxfmt --no-error-on-unmatched-pattern"
     ]
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
-  "simple-git-hooks": {
-    "pre-commit": "npx lint-staged --allow-empty && dprint check && pnpm typecheck"
-  },
-  "engines": {
-    "node": ">=24.3.0"
   }
 }

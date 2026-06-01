@@ -222,7 +222,7 @@ pnpm lint            # ESLint
 pnpm lint.fix        # ESLint with auto-fix
 pnpm format          # dprint format check (with diff)
 pnpm format.check    # dprint format check (CI-safe)
-pnpm test.run        # Run tests once
+pnpm test:run        # Run tests once
 pnpm test            # Run tests in watch mode
 ```
 
