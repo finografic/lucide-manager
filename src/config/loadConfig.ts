@@ -1,17 +1,17 @@
 /**
- * loadConfig.ts
+ * LoadConfig.ts
  *
  * Resolves the icon server URL for the picker UI.
  *
  * Two modes:
  *
  * SELF-DEV — when run from within this package itself (pkgRoot === cwd).
- *   Returns DEFAULT_SERVER_URL. No config file needed.
+ * Returns DEFAULT_SERVER_URL. No config file needed.
  *
  * INSTALLED — when run from a host package (the normal use case).
- *   Walks up from cwd looking for `lucide-manager.config.json`.
- *   Reads `serverUrl` from it, or falls back to DEFAULT_SERVER_URL.
- *   Throws a descriptive error if the config file is not found at all.
+ * Walks up from cwd looking for `lucide-manager.config.json`.
+ * Reads `serverUrl` from it, or falls back to DEFAULT_SERVER_URL.
+ * Throws a descriptive error if the config file is not found at all.
  */
 
 import fs from 'node:fs';
@@ -43,7 +43,7 @@ export function loadConfig(
   // Walk up from cwd to find lucide-manager.config.json in the host package root.
 
   let dir = cwd;
-  const root = path.parse(dir).root;
+  const { root } = path.parse(dir);
 
   while (dir !== root) {
     const candidate = path.join(dir, CONFIG_FILENAME);
@@ -62,8 +62,8 @@ export function loadConfig(
   }
 
   throw new Error(
-    `[lucide-manager] Could not find "${CONFIG_FILENAME}" in "${startDir}" or any parent directory.\n\n`
-      + `Create a "${CONFIG_FILENAME}" in your package root:\n\n`
-      + `  {\n    "serverUrl": "http://localhost:3001"\n  }\n`,
+    `[lucide-manager] Could not find "${CONFIG_FILENAME}" in "${startDir}" or any parent directory.\n\n` +
+      `Create a "${CONFIG_FILENAME}" in your package root:\n\n` +
+      `  {\n    "serverUrl": "http://localhost:3001"\n  }\n`,
   );
 }

@@ -1,5 +1,5 @@
 /**
- * colors.ts
+ * Colors.ts
  *
  * All UI colors for the lucide-manager picker app.
  * Every inline style color value in every component references this object.

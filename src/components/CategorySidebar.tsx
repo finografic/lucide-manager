@@ -111,7 +111,7 @@ export function CategorySidebar({
         Categories
       </div>
 
-      {categories.map(cat => (
+      {categories.map((cat) => (
         <button
           key={cat.name}
           style={itemStyle(!showIncludedOnly && activeCategory === cat.name)}

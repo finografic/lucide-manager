@@ -1,10 +1,10 @@
 /**
- * defaults.ts
+ * Defaults.ts
  *
  * Single source of truth for all constants used across the tool:
- *   - config filename (host packages create this file in their root)
- *   - self-dev paths (fixed, gitignored — used when running from within this package)
- *   - dev server defaults (referenced by vite.config.ts)
+ * - config filename (host packages create this file in their root)
+ * - self-dev paths (fixed, gitignored — used when running from within this package)
+ * - dev server defaults (referenced by vite.config.ts)
  */
 
 /** The config file that host packages create in their root. */

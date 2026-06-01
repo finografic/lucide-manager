@@ -6,62 +6,63 @@
  */
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import type { LucideIcon } from './hooks/useLucideData';
+
+import { COLORS } from './config/colors';
 
 import { CategorySidebar } from './components/CategorySidebar';
 import { IconCard } from './components/IconCard';
 import { IconDetail } from './components/IconDetail';
-import { COLORS } from './config/colors';
 import { useIconsJson } from './hooks/useIconsJson';
-import type { LucideIcon } from './hooks/useLucideData';
 import { useLucideData } from './hooks/useLucideData';
 
 // ── Category display labels ────────────────────────────────────────────────────
 // Matches the titles from lucide's categoriesData.json
 
 const CATEGORY_LABELS: Record<string, string> = {
-  accessibility: 'Accessibility',
-  account: 'Accounts & access',
-  animals: 'Animals',
-  arrows: 'Arrows',
-  brands: 'Brands',
-  buildings: 'Buildings',
-  charts: 'Charts',
-  communication: 'Communication',
-  connectivity: 'Connectivity',
-  cursors: 'Cursors',
-  design: 'Design',
-  development: 'Coding & development',
-  devices: 'Devices',
-  emoji: 'Emoji',
-  files: 'File icons',
-  finance: 'Finance',
+  'accessibility': 'Accessibility',
+  'account': 'Accounts & access',
+  'animals': 'Animals',
+  'arrows': 'Arrows',
+  'brands': 'Brands',
+  'buildings': 'Buildings',
+  'charts': 'Charts',
+  'communication': 'Communication',
+  'connectivity': 'Connectivity',
+  'cursors': 'Cursors',
+  'design': 'Design',
+  'development': 'Coding & development',
+  'devices': 'Devices',
+  'emoji': 'Emoji',
+  'files': 'File icons',
+  'finance': 'Finance',
   'food-beverage': 'Food & beverage',
-  gaming: 'Gaming',
-  home: 'Home',
-  layout: 'Layout',
-  mail: 'Mail',
-  math: 'Math',
-  medical: 'Medical',
-  multimedia: 'Multimedia',
-  nature: 'Nature',
-  navigation: 'Navigation',
-  notifications: 'Notifications',
-  people: 'People',
-  photography: 'Photography',
-  science: 'Science',
-  seasons: 'Seasons',
-  security: 'Security',
-  shapes: 'Shapes',
-  shopping: 'Shopping',
-  social: 'Social',
-  sports: 'Sports',
-  sustainability: 'Sustainability',
-  text: 'Text',
-  time: 'Time',
-  tools: 'Tools',
-  transportation: 'Transportation',
-  travel: 'Travel',
-  weather: 'Weather',
+  'gaming': 'Gaming',
+  'home': 'Home',
+  'layout': 'Layout',
+  'mail': 'Mail',
+  'math': 'Math',
+  'medical': 'Medical',
+  'multimedia': 'Multimedia',
+  'nature': 'Nature',
+  'navigation': 'Navigation',
+  'notifications': 'Notifications',
+  'people': 'People',
+  'photography': 'Photography',
+  'science': 'Science',
+  'seasons': 'Seasons',
+  'security': 'Security',
+  'shapes': 'Shapes',
+  'shopping': 'Shopping',
+  'social': 'Social',
+  'sports': 'Sports',
+  'sustainability': 'Sustainability',
+  'text': 'Text',
+  'time': 'Time',
+  'tools': 'Tools',
+  'transportation': 'Transportation',
+  'travel': 'Travel',
+  'weather': 'Weather',
 };
 
 // ── App ────────────────────────────────────────────────────────────────────────
@@ -110,8 +111,8 @@ export function App() {
     }
     return Object.entries(CATEGORY_LABELS)
       .map(([name, label]) => ({ name, label, count: countMap.get(name) ?? 0 }))
-      .filter(cat => cat.count > 0)
-      .sort((a, b) => a.label.localeCompare(b.label));
+      .filter((cat) => cat.count > 0)
+      .toSorted((a, b) => a.label.localeCompare(b.label));
   }, [allIcons]);
 
   // ── Filtered icons ───────────────────────────────────────────────────────────
@@ -120,16 +121,15 @@ export function App() {
     let result = allIcons;
 
     if (showIncludedOnly) {
-      result = result.filter(icon => isSelected(icon.name));
+      result = result.filter((icon) => isSelected(icon.name));
     } else if (activeCategory) {
-      result = result.filter(icon => icon.categories.includes(activeCategory));
+      result = result.filter((icon) => icon.categories.includes(activeCategory));
     }
 
     if (query.trim()) {
       const lower = query.toLowerCase();
-      result = result.filter(icon =>
-        icon.name.includes(lower)
-        || icon.categories.some(cat => cat.includes(lower))
+      result = result.filter(
+        (icon) => icon.name.includes(lower) || icon.categories.some((cat) => cat.includes(lower)),
       );
     }
 
@@ -138,9 +138,7 @@ export function App() {
 
   // ── Focused entry ────────────────────────────────────────────────────────────
 
-  const focusedEntry = focusedIcon
-    ? entries.find(e => e.lucideName === focusedIcon.name)
-    : undefined;
+  const focusedEntry = focusedIcon ? entries.find((e) => e.lucideName === focusedIcon.name) : undefined;
 
   // ── Render ───────────────────────────────────────────────────────────────────
 
@@ -217,7 +215,7 @@ export function App() {
             type="text"
             placeholder="Search icons…"
             value={query}
-            onChange={e => setQuery(e.target.value)}
+            onChange={(e) => setQuery(e.target.value)}
             style={{
               width: '100%',
               padding: '7px 12px 7px 32px',
@@ -254,20 +252,20 @@ export function App() {
 
         {/* Status */}
         <div style={{ fontSize: '13px', color: COLORS.textDim, flexShrink: 0, marginLeft: 'auto' }}>
-          {saving
-            ? <span style={{ color: COLORS.saving }}>Saving…</span>
-            : saveError
-            ? <span style={{ color: COLORS.error }}>Save failed</span>
-            : (
-              <span>
-                <span style={{ color: COLORS.included, fontWeight: 600 }}>
-                  {entries.length}
-                  <span style={{ opacity: 0.55 }}>{' included · '}</span>
-                </span>
-                <span style={{ color: COLORS.textMuted }}>{allIcons.length || '…'}</span>
-                <span style={{ color: COLORS.textMuted }}>{' total'}</span>
+          {saving ? (
+            <span style={{ color: COLORS.saving }}>Saving…</span>
+          ) : saveError ? (
+            <span style={{ color: COLORS.error }}>Save failed</span>
+          ) : (
+            <span>
+              <span style={{ color: COLORS.included, fontWeight: 600 }}>
+                {entries.length}
+                <span style={{ opacity: 0.55 }}>{' included · '}</span>
               </span>
-            )}
+              <span style={{ color: COLORS.textMuted }}>{allIcons.length || '…'}</span>
+              <span style={{ color: COLORS.textMuted }}>{' total'}</span>
+            </span>
+          )}
         </div>
       </header>
 
@@ -280,7 +278,7 @@ export function App() {
           showIncludedOnly={showIncludedOnly}
           includedCount={entries.length}
           onSelectCategory={setActiveCategory}
-          onToggleIncluded={() => setShowIncludedOnly(prev => !prev)}
+          onToggleIncluded={() => setShowIncludedOnly((prev) => !prev)}
         />
 
         {/* Grid area */}
@@ -292,71 +290,65 @@ export function App() {
             paddingBottom: focusedIcon ? '120px' : '16px',
           }}
         >
-          {loading
-            ? (
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: '200px',
-                  color: COLORS.textDimmer,
-                }}
-              >
-                Loading icons…
-              </div>
-            )
-            : lucideError
-            ? (
-              <div style={{ padding: '24px', color: COLORS.error }}>
-                Failed to load Lucide data: {lucideError}
-              </div>
-            )
-            : filteredIcons.length === 0
-            ? (
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: '200px',
-                  color: COLORS.textDimmer,
-                }}
-              >
-                No icons match &ldquo;{query}&rdquo;
-              </div>
-            )
-            : (
-              <>
-                <div style={{ fontSize: '12px', color: COLORS.textDimmer, marginBottom: '12px' }}>
-                  {filteredIcons.length} icon{filteredIcons.length !== 1 ? 's' : ''}
-                  {query
-                    ? ` matching "${query}"`
-                    : activeCategory
+          {loading ? (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '200px',
+                color: COLORS.textDimmer,
+              }}
+            >
+              Loading icons…
+            </div>
+          ) : lucideError ? (
+            <div style={{ padding: '24px', color: COLORS.error }}>
+              Failed to load Lucide data: {lucideError}
+            </div>
+          ) : filteredIcons.length === 0 ? (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '200px',
+                color: COLORS.textDimmer,
+              }}
+            >
+              No icons match &ldquo;{query}&rdquo;
+            </div>
+          ) : (
+            <>
+              <div style={{ fontSize: '12px', color: COLORS.textDimmer, marginBottom: '12px' }}>
+                {filteredIcons.length} icon{filteredIcons.length !== 1 ? 's' : ''}
+                {query
+                  ? ` matching "${query}"`
+                  : activeCategory
                     ? ` in ${CATEGORY_LABELS[activeCategory] ?? activeCategory}`
                     : showIncludedOnly
-                    ? ' included'
-                    : ''}
-                </div>
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(88px, 1fr))',
-                    gap: '6px',
-                  }}
-                >
-                  {filteredIcons.map(icon => (
-                    <IconCard
-                      key={icon.name}
-                      icon={icon}
-                      isFocused={focusedIcon?.name === icon.name}
-                      isIncluded={isSelected(icon.name)}
-                      onClick={setFocusedIcon}
-                    />
-                  ))}
-                </div>
-              </>
-            )}
+                      ? ' included'
+                      : ''}
+              </div>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(88px, 1fr))',
+                  gap: '6px',
+                }}
+              >
+                {filteredIcons.map((icon) => (
+                  <IconCard
+                    key={icon.name}
+                    icon={icon}
+                    isFocused={focusedIcon?.name === icon.name}
+                    isIncluded={isSelected(icon.name)}
+                    onClick={setFocusedIcon}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </main>
       </div>
 
@@ -366,7 +358,7 @@ export function App() {
           icon={focusedIcon}
           selected={isSelected(focusedIcon.name)}
           entry={focusedEntry}
-          onToggle={name => toggleIcon(name)}
+          onToggle={(name) => toggleIcon(name)}
           onRename={renameExport}
           onClose={() => setFocusedIcon(null)}
         />

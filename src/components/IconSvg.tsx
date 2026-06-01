@@ -8,15 +8,7 @@
 
 import React from 'react';
 
-type SVGElementName =
-  | 'circle'
-  | 'ellipse'
-  | 'g'
-  | 'line'
-  | 'path'
-  | 'polygon'
-  | 'polyline'
-  | 'rect';
+type SVGElementName = 'circle' | 'ellipse' | 'g' | 'line' | 'path' | 'polygon' | 'polyline' | 'rect';
 type IconNodeElement = [SVGElementName, Record<string, string>];
 
 interface IconSvgProps {
@@ -40,9 +32,7 @@ export function IconSvg({ node, size = 24, className, color = 'currentColor' }: 
       strokeLinejoin="round"
       className={className}
     >
-      {node.map(([elementName, attrs], index) =>
-        React.createElement(elementName, { key: index, ...attrs })
-      )}
+      {node.map(([elementName, attrs], index) => React.createElement(elementName, { key: index, ...attrs }))}
     </svg>
   );
 }

@@ -1,33 +1,25 @@
 /**
- * useLucideData.ts
+ * UseLucideData.ts
  *
  * Fetches icon metadata from the public Lucide APIs:
  *
- *   /api/icon-nodes  → { [kebabName]: IconNode[] }
- *   /api/categories  → { [kebabName]: string[] }
+ * /api/icon-nodes  → { [kebabName]: IconNode[] }
+ * /api/categories  → { [kebabName]: string[] }
  *
  * Both are served with Cache-Control: public, max-age=86400
  * so repeated dev sessions won't re-fetch unnecessarily.
  *
  * Returns a flat array of LucideIcon objects, each with:
- *   - name:       kebab-case (e.g. "arrow-up")
- *   - node:       SVG node tree for direct rendering
- *   - categories: string[] of category names
+ * - name:       kebab-case (e.g. "arrow-up")
+ * - node:       SVG node tree for direct rendering
+ * - categories: string[] of category names
  */
 
 import { useEffect, useState } from 'react';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
-type SVGElementName =
-  | 'circle'
-  | 'ellipse'
-  | 'g'
-  | 'line'
-  | 'path'
-  | 'polygon'
-  | 'polyline'
-  | 'rect';
+type SVGElementName = 'circle' | 'ellipse' | 'g' | 'line' | 'path' | 'polygon' | 'polyline' | 'rect';
 type IconNodeElement = [SVGElementName, Record<string, string>];
 type IconNodeMap = Record<string, IconNodeElement[]>;
 type CategoryMap = Record<string, string[]>;
@@ -69,16 +61,13 @@ export function useLucideData(): LucideDataState {
 
     async function load() {
       try {
-        const [nodeRes, catRes] = await Promise.all([
-          fetch(ICON_NODES_URL),
-          fetch(CATEGORIES_URL),
-        ]);
+        const [nodeRes, catRes] = await Promise.all([fetch(ICON_NODES_URL), fetch(CATEGORIES_URL)]);
 
         if (!nodeRes.ok) throw new Error(`icon-nodes fetch failed: ${nodeRes.status}`);
         if (!catRes.ok) throw new Error(`categories fetch failed: ${catRes.status}`);
 
-        const nodeMap: IconNodeMap = await nodeRes.json() as IconNodeMap;
-        const catMap: CategoryMap = await catRes.json() as CategoryMap;
+        const nodeMap: IconNodeMap = (await nodeRes.json()) as IconNodeMap;
+        const catMap: CategoryMap = (await catRes.json()) as CategoryMap;
 
         const icons: LucideIcon[] = Object.entries(nodeMap)
           .map(([name, node]) => ({
@@ -86,7 +75,7 @@ export function useLucideData(): LucideDataState {
             node,
             categories: catMap[name] ?? [],
           }))
-          .sort((a, b) => a.name.localeCompare(b.name));
+          .toSorted((a, b) => a.name.localeCompare(b.name));
 
         cachedIcons = icons;
 
@@ -95,7 +84,7 @@ export function useLucideData(): LucideDataState {
         }
       } catch (err) {
         if (!cancelled) {
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
             loading: false,
             error: err instanceof Error ? err.message : 'Unknown error',

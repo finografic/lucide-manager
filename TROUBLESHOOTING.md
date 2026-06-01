@@ -205,14 +205,14 @@ Build the picker UI _once_ at publish time (as part of `pnpm run build`), ship t
 
 **Tradeoffs**
 
-|   |                                                                                                    |
-| - | -------------------------------------------------------------------------------------------------- |
-| + | Zero dep resolution headaches — no `findBin()`, no sibling `.bin/` hunting                         |
-| + | Instant startup — no Vite bundling or HMR pipeline                                                 |
-| + | Smaller install footprint in the host project                                                      |
-| + | The picker UI is frozen/stable — no surprise breakage from Vite or React updates in the host       |
-| - | Picker UI changes require a new publish (can't hot-reload during development of the picker itself) |
-| - | Need to commit `dist/` to the package or build it in CI before publish                             |
+|     |                                                                                                    |
+| --- | -------------------------------------------------------------------------------------------------- |
+| +   | Zero dep resolution headaches — no `findBin()`, no sibling `.bin/` hunting                         |
+| +   | Instant startup — no Vite bundling or HMR pipeline                                                 |
+| +   | Smaller install footprint in the host project                                                      |
+| +   | The picker UI is frozen/stable — no surprise breakage from Vite or React updates in the host       |
+| -   | Picker UI changes require a new publish (can't hot-reload during development of the picker itself) |
+| -   | Need to commit `dist/` to the package or build it in CI before publish                             |
 
 **Is Vite necessary?** No — only as a build tool (devDependency). Node's built-in `http` module handles the file server.
 
@@ -240,14 +240,14 @@ The DS package owns the file write + codegen. The picker owns the visual selecti
 
 **Tradeoffs**
 
-|   |                                                                               |
-| - | ----------------------------------------------------------------------------- |
-| + | Clean separation of concerns — codegen is collocated with the generated files |
-| + | Picker can evolve independently of the DS version                             |
-| + | Picker could be a hosted app — no CLI install needed at all                   |
-| + | DS doesn't depend on an external package for a core build step                |
-| - | Two moving parts to keep in sync (picker URL format + DS server format)       |
-| - | Slightly more setup for new consumers                                         |
+|     |                                                                               |
+| --- | ----------------------------------------------------------------------------- |
+| +   | Clean separation of concerns — codegen is collocated with the generated files |
+| +   | Picker can evolve independently of the DS version                             |
+| +   | Picker could be a hosted app — no CLI install needed at all                   |
+| +   | DS doesn't depend on an external package for a core build step                |
+| -   | Two moving parts to keep in sync (picker URL format + DS server format)       |
+| -   | Slightly more setup for new consumers                                         |
 
 **Is Vite necessary?** Only if the picker stays as a React app. The DS file-server would be plain Node. If the picker becomes a hosted app, Vite is entirely off the consumer's machine.
 
@@ -274,15 +274,15 @@ This is the direction Panda Studio is moving — their VS Code extension opens a
 
 **Tradeoffs**
 
-|   |                                                                                            |
-| - | ------------------------------------------------------------------------------------------ |
-| + | No server, no Vite at runtime, no dep resolution — zero moving parts                       |
-| + | Deep editor integration (can open files, jump to usages, etc.)                             |
-| + | VS Code handles file permissions and workspace detection                                   |
-| + | Consistent with where the ecosystem is heading (Panda Studio, Tailwind IntelliSense, etc.) |
-| - | VS Code only — no terminal-only or CI usage                                                |
-| - | Extension packaging and Marketplace publishing is its own process                          |
-| - | VS Code extension API has a learning curve                                                 |
+|     |                                                                                            |
+| --- | ------------------------------------------------------------------------------------------ |
+| +   | No server, no Vite at runtime, no dep resolution — zero moving parts                       |
+| +   | Deep editor integration (can open files, jump to usages, etc.)                             |
+| +   | VS Code handles file permissions and workspace detection                                   |
+| +   | Consistent with where the ecosystem is heading (Panda Studio, Tailwind IntelliSense, etc.) |
+| -   | VS Code only — no terminal-only or CI usage                                                |
+| -   | Extension packaging and Marketplace publishing is its own process                          |
+| -   | VS Code extension API has a learning curve                                                 |
 
 ---
 

@@ -7,10 +7,10 @@
  */
 
 import { useEffect, useState } from 'react';
-
-import { COLORS } from '../config/colors';
 import type { IconEntry } from '../hooks/useIconsJson';
 import type { LucideIcon } from '../hooks/useLucideData';
+
+import { COLORS } from '../config/colors';
 import { IconSvg } from './IconSvg';
 
 interface IconDetailProps {
@@ -22,9 +22,7 @@ interface IconDetailProps {
   onClose: () => void;
 }
 
-export function IconDetail(
-  { icon, selected, entry, onToggle, onRename, onClose }: IconDetailProps,
-) {
+export function IconDetail({ icon, selected, entry, onToggle, onRename, onClose }: IconDetailProps) {
   const [editingName, setEditingName] = useState(false);
   const [nameInput, setNameInput] = useState(entry?.exportName ?? '');
 
@@ -93,8 +91,8 @@ export function IconDetail(
 
         {/* Categories */}
         <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '8px' }}>
-          {icon.categories.length > 0
-            ? icon.categories.map(cat => (
+          {icon.categories.length > 0 ? (
+            icon.categories.map((cat) => (
               <span
                 key={cat}
                 style={{
@@ -108,57 +106,57 @@ export function IconDetail(
                 {cat}
               </span>
             ))
-            : <span style={{ fontSize: '11px', color: COLORS.textDim }}>No categories</span>}
+          ) : (
+            <span style={{ fontSize: '11px', color: COLORS.textDim }}>No categories</span>
+          )}
         </div>
 
         {/* Export name */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '12px', color: COLORS.textDim }}>exports as</span>
 
-          {selected && editingName
-            ? (
-              <input
-                autoFocus
-                value={nameInput}
-                onChange={e => setNameInput(e.target.value)}
-                onBlur={commitRename}
-                onKeyDown={e => {
-                  if (e.key === 'Enter') commitRename();
-                  if (e.key === 'Escape') {
-                    setNameInput(entry?.exportName ?? '');
-                    setEditingName(false);
-                  }
-                }}
-                style={{
-                  fontSize: '12px',
-                  fontFamily: 'monospace',
-                  padding: '2px 6px',
-                  borderRadius: '4px',
-                  border: `1px solid ${COLORS.selected}`,
-                  background: COLORS.bgSurfaceDark,
-                  color: COLORS.textPrimary,
-                  width: '180px',
-                }}
-              />
-            )
-            : (
-              <button
-                onClick={() => selected && setEditingName(true)}
-                title={selected ? 'Click to rename export' : 'Add icon first to rename'}
-                style={{
-                  fontSize: '12px',
-                  fontFamily: 'monospace',
-                  color: selected ? COLORS.selected : COLORS.textDimmer,
-                  background: 'none',
-                  border: 'none',
-                  padding: 0,
-                  cursor: selected ? 'text' : 'default',
-                  textDecoration: selected ? 'underline dotted' : 'none',
-                }}
-              >
-                {exportLabel}
-              </button>
-            )}
+          {selected && editingName ? (
+            <input
+              autoFocus
+              value={nameInput}
+              onChange={(e) => setNameInput(e.target.value)}
+              onBlur={commitRename}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') commitRename();
+                if (e.key === 'Escape') {
+                  setNameInput(entry?.exportName ?? '');
+                  setEditingName(false);
+                }
+              }}
+              style={{
+                fontSize: '12px',
+                fontFamily: 'monospace',
+                padding: '2px 6px',
+                borderRadius: '4px',
+                border: `1px solid ${COLORS.selected}`,
+                background: COLORS.bgSurfaceDark,
+                color: COLORS.textPrimary,
+                width: '180px',
+              }}
+            />
+          ) : (
+            <button
+              onClick={() => selected && setEditingName(true)}
+              title={selected ? 'Click to rename export' : 'Add icon first to rename'}
+              style={{
+                fontSize: '12px',
+                fontFamily: 'monospace',
+                color: selected ? COLORS.selected : COLORS.textDimmer,
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                cursor: selected ? 'text' : 'default',
+                textDecoration: selected ? 'underline dotted' : 'none',
+              }}
+            >
+              {exportLabel}
+            </button>
+          )}
         </div>
       </div>
 
