@@ -25,7 +25,9 @@ build/
 # OS
 .DS_Store
 Thumbs.db
-Icon?
+ehthumbs.db
+Desktop.ini
+*~
 
 # Logs
 *.log
