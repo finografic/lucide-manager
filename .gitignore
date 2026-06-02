@@ -14,6 +14,17 @@ build/
 .env.local
 .env.*.local
 
+# Agents
+.agents/*
+!.agents/
+!.agents/handoff.md
+.codex/
+.claude/
+!.claude/settings.json
+.worktrees/
+**/worktrees/
+
+
 # IDE
 .cursor/chats
 .claude/
