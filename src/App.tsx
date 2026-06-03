@@ -159,68 +159,63 @@ export function App() {
         : '';
 
   return (
-    <div className="flex h-screen flex-col bg-background text-foreground">
-      <header className="flex shrink-0 items-center gap-4 border-b border-border px-3.5 py-3.5 pr-6">
-        <div className="flex shrink-0 items-center gap-1.5 text-[15px] font-bold">
-          <img src="/lucide.png" alt="" className="size-6" />
-          <span>Lucide Manager</span>
-        </div>
+    <div className="flex h-screen bg-background text-foreground">
+      <CategorySidebar
+        categories={categories}
+        activeCategory={activeCategory}
+        showIncludedOnly={showIncludedOnly}
+        includedCount={entries.length}
+        onSelectCategory={setActiveCategory}
+        onToggleIncluded={() => setShowIncludedOnly((prev) => !prev)}
+      />
 
-        <InputGroup className="max-w-[480px] flex-1">
-          <InputGroupAddon>
-            <Search className="size-3.5 opacity-40" />
-          </InputGroupAddon>
-          <InputGroupInput
-            ref={searchRef}
-            type="text"
-            placeholder="Search icons…"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          {query ? (
-            <InputGroupAddon align="inline-end">
-              <InputGroupButton
-                type="button"
-                size="icon-xs"
-                variant="ghost"
-                aria-label="Clear search"
-                onClick={() => setQuery('')}
-              >
-                <X className="size-3.5" />
-              </InputGroupButton>
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+        <header className="flex shrink-0 items-center gap-4 border-b border-border px-6 py-3.5">
+          <InputGroup className="max-w-[480px] flex-1">
+            <InputGroupAddon>
+              <Search className="size-3.5 opacity-40" />
             </InputGroupAddon>
-          ) : null}
-        </InputGroup>
+            <InputGroupInput
+              ref={searchRef}
+              type="text"
+              placeholder="Search icons…"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+            {query ? (
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton
+                  type="button"
+                  size="icon-xs"
+                  variant="ghost"
+                  aria-label="Clear search"
+                  onClick={() => setQuery('')}
+                >
+                  <X className="size-3.5" />
+                </InputGroupButton>
+              </InputGroupAddon>
+            ) : null}
+          </InputGroup>
 
-        <div className="ml-auto shrink-0 text-[13px] text-muted-foreground">
-          {saving ? (
-            <span className="text-chart-1">Saving…</span>
-          ) : saveError ? (
-            <span className="text-destructive">Save failed</span>
-          ) : (
-            <span>
-              <span className="font-semibold text-primary">
-                {entries.length}
-                <span className="text-primary/55">{' included · '}</span>
+          <div className="ml-auto shrink-0 text-[13px] text-muted-foreground">
+            {saving ? (
+              <span className="text-chart-1">Saving…</span>
+            ) : saveError ? (
+              <span className="text-destructive">Save failed</span>
+            ) : (
+              <span>
+                <span className="font-semibold text-primary">
+                  {entries.length}
+                  <span className="text-primary/55">{' included · '}</span>
+                </span>
+                <span>{allIcons.length || '…'}</span>
+                <span>{' total'}</span>
               </span>
-              <span>{allIcons.length || '…'}</span>
-              <span>{' total'}</span>
-            </span>
-          )}
-        </div>
-      </header>
+            )}
+          </div>
+        </header>
 
-      <div className="flex min-h-0 flex-1 overflow-hidden">
-        <CategorySidebar
-          categories={categories}
-          activeCategory={activeCategory}
-          showIncludedOnly={showIncludedOnly}
-          includedCount={entries.length}
-          onSelectCategory={setActiveCategory}
-          onToggleIncluded={() => setShowIncludedOnly((prev) => !prev)}
-        />
-
-        <main className={cn('min-w-0 flex-1', focusedIcon ? 'pb-[120px]' : '')}>
+        <main className={cn('min-h-0 flex-1', focusedIcon ? 'pb-[120px]' : '')}>
           <ScrollArea className="h-full">
             <div className="p-4">
               {loading ? (

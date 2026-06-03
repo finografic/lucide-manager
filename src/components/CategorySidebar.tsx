@@ -67,8 +67,14 @@ export function CategorySidebar({
   onToggleIncluded,
 }: CategorySidebarProps) {
   return (
-    <aside className="flex w-[220px] shrink-0 flex-col border-r border-sidebar-border bg-sidebar">
-      <ScrollArea className="flex-1 px-2.5 py-4">
+    <aside className="flex h-full w-[220px] shrink-0 flex-col border-r border-sidebar-border bg-sidebar">
+      <div className="flex shrink-0 items-center gap-1.5 px-3.5 py-3.5 text-[15px] font-bold text-sidebar-foreground">
+        <img src="/lucide.png" alt="" className="size-6" />
+        <span>Lucide Manager</span>
+      </div>
+      <Separator className="bg-sidebar-border" />
+
+      <ScrollArea className="min-h-0 flex-1 px-2.5 py-4">
         <div className="flex flex-col gap-1.5">
           <div className="px-2.5 pb-1.5 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
             View
