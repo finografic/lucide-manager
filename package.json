@@ -1,7 +1,7 @@
 {
   "name": "@finografic/lucide-manager",
   "type": "module",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "private": false,
   "description": "Browse, select, and manage Lucide icons for your design system registry.",
   "homepage": "https://github.com/finografic/lucide-manager",
