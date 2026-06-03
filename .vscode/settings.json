@@ -46,5 +46,16 @@
 
   "markdown-preview-enhanced.scrollSync": false,
 
-  "markdown.styles": ["node_modules/@finografic/md-lint/styles/markdown-github-light.css"]
+  "markdown.styles": ["node_modules/@finografic/md-lint/styles/markdown-github-light.css"],
+
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "lucide-manager.config.json",
+        "lucide-manager.defaults.json",
+        "lucide-manager.config.example.json"
+      ],
+      "url": "./lucide-manager.config.schema.json"
+    }
+  ]
 }

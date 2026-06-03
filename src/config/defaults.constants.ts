@@ -1,26 +1,28 @@
 /**
- * Defaults.ts
+ * Defaults.constants.ts
  *
- * Single source of truth for all constants used across the tool:
- * - config filename (host packages create this file in their root)
- * - self-dev paths (fixed, gitignored — used when running from within this package)
- * - dev server defaults (referenced by vite.config.ts)
+ * Config filenames and non-config constants. Default values live in
+ * lucide-manager.defaults.json (merged with lucide-manager.config.json).
  */
 
-/** The config file that host packages create in their root. */
+/** Host package config — same schema as lucide-manager.defaults.json; overrides defaults. */
 export const CONFIG_FILENAME = 'lucide-manager.config.json';
 
-/** Default server URL — used in self-dev mode and as fallback. */
-export const DEFAULT_SERVER_URL = 'http://localhost:3001';
+/** Package-only defaults shipped with @finografic/lucide-manager. */
+export const PACKAGE_DEFAULTS_FILENAME = 'lucide-manager.defaults.json';
 
-/** Dev server defaults — referenced by vite.config.ts. */
-export const SERVER = {
-  port: 5199,
-  open: true,
-} as const;
+/** JSON Schema for defaults + host config (IDE validation). */
+export const CONFIG_SCHEMA_FILENAME = 'lucide-manager.config.schema.json';
 
 /** Grid preview size (~15% above original 28px). */
-export const ICON_GRID_SIZE = 28;
+export const ICON_GRID_SIZE = 32;
 
 /** Detail footer preview size (~15% above original 36px). */
-export const ICON_DETAIL_SIZE = 42;
+export const ICON_DETAIL_SIZE = 41;
+
+/** Fallback when manager.appBranding is omitted from merged JSON (also in lucide-manager.defaults.json). */
+export const DEFAULT_APP_BRANDING = {
+  title: 'Lucide Manager',
+  img: '/lucide.png',
+  showInSidebar: true,
+} as const;

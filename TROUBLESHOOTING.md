@@ -1,6 +1,8 @@
 # Troubleshooting — @finografic/lucide-manager
 
-A log of every real issue hit during integration with the `@workspace/design-system` monorepo, including root cause, where the fix lived, and what changed.
+A log of real integration issues with the host design-system monorepo, including root cause, where the fix lived, and what changed.
+
+> **Architecture note (2026-06-04):** Current picker versions use a **host-owned icons API** (`iconsApi` in config) and no longer ship `lucide-manager generate` or an in-package Vite `/api/icons-json` plugin. Issues below marked with older file paths (`loadConfig.ts`, `generate`) are **historical** but kept for context.
 
 ---
 

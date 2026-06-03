@@ -18,6 +18,7 @@ build/
 .agents/*
 !.agents/
 !.agents/handoff.md
+!.agents/memory.md
 .codex/
 .claude/
 !.claude/settings.json

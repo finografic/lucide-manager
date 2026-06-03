@@ -4,7 +4,7 @@
  * Manages the local icons.json state — the set of icons
  * the developer has chosen to include in the DS registry.
  *
- * Reads from and writes to /api/icons-json (served by the Vite plugin).
+ * Reads from and writes to the host icons API (`__ICONS_API_URL__/api/icons-json`).
  */
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -46,7 +46,7 @@ export function useIconsJson() {
   // ── Load ───────────────────────────────────────────────────────────────────
 
   useEffect(() => {
-    fetch(`${__ICONS_SERVER_URL__}/api/icons-json`)
+    fetch(`${__ICONS_API_URL__}/api/icons-json`)
       .then((res) => {
         if (!res.ok) throw new Error(`Failed to load icons.json: ${res.status}`);
         return res.json() as Promise<IconEntry[]>;
@@ -72,7 +72,7 @@ export function useIconsJson() {
   const saveEntries = useCallback(async (next: IconEntry[]) => {
     setState((prev) => ({ ...prev, saving: true, error: null }));
     try {
-      const res = await fetch(`${__ICONS_SERVER_URL__}/api/icons-json`, {
+      const res = await fetch(`${__ICONS_API_URL__}/api/icons-json`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(next, null, 2),

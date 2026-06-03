@@ -24,19 +24,13 @@ Reference: [`docs/process/PROJECT_MEMORY_MODEL.md`](./docs/process/PROJECT_MEMOR
 
 ## Rules - Project-Specific
 
-Project-specific rules live in `.github/instructions/project/`:
-
-- [Design System](.github/instructions/project/design-system.instructions.md)
-- [SVA components (slot recipes)](.github/instructions/project/sva-components.instructions.md)
-- [CVA components (atomic recipes)](.github/instructions/project/cva-components.instructions.md)
-
-- This is a **standalone installable package** (`@finografic/design-system`), not a monorepo workspace.
+- This is a **standalone installable package** (`@finografic/lucide-manager`), not a monorepo workspace package alias.
 - Published to GitHub Packages (`https://npm.pkg.github.com`).
 - Do not include `Co-Authored-By` lines in commit messages.
-- Do not reference `@workspace/*` — all imports and deps must use published package names.
-- The `panda.preset` entry must always build with `platform: 'node'` in tsdown.
-- Never add `watch: true` to `panda.config.ts` — it causes `panda codegen` to hang.
-- **`dist/` is committed** — this is a published package library; `dist/` must be included. After every component refactor: run `pnpm build` from `packages/design-system/`, then commit `dist/` with `chore(dist): build — <summary>`.
+- Do not reference `@workspace/*` in published docs — use `@finografic/lucide-manager` and host package names.
+- **`dist/` is gitignored** — picker runs via Vite dev server; `pnpm build` output is local only unless publish strategy changes.
+- Config: keep `lucide-manager.config.schema.json` and `src/config/lucide-manager.config.types.ts` in sync manually.
+- Shipped npm `files`: include `lucide-manager.defaults.json`, `lucide-manager.config.schema.json`, `lucide-manager.config.example.json`.
 
 ## Rules — Global
 
@@ -91,7 +85,7 @@ Shared across Claude Code, Cursor, and GitHub Copilot.
 ## Learned User Preferences
 
 - When integrating shadcn, keep preset oklch `:root` / `.dark` tokens in `src/index.css` — do not replace them with legacy hex overrides that hide the chosen theme
-- Icon grid active/included accents: named constants in `src/config/colors.ts` must reference theme CSS variables (`var(--primary)`, `var(--ring)`), kept in sync with `index.css`
+- Icon grid active/included accents: `src/config/colors.constants.ts` references theme CSS variables (`var(--primary)`, `var(--ring)`)
 - Put the `shadcn` npm package in `devDependencies`; use `pnpm dlx shadcn@latest add …` for one-off component adds
 - Icon picker selection: single-click focuses and opens the footer; double-click, Space (when an icon is focused, not in text inputs), and footer Add/Remove all toggle registry inclusion and save to `icons.json`
 - Ignore `.cursor/chats` and `.cursor/hooks`; commit `.cursor/mcp.json`
@@ -99,12 +93,15 @@ Shared across Claude Code, Cursor, and GitHub Copilot.
 
 ## Learned Workspace Facts
 
-- `@finografic/lucide-manager` is a Vite devtool + CLI; runtime entry is `bin/lucide-manager.js`, not public exports from `src/index.ts`
+- `@finografic/lucide-manager` is a Vite devtool + CLI (host **devDependency**); runtime entry is `bin/lucide-manager.js`, not public exports from `src/index.ts`. Host owns `icons.json` and the icons API; this package is picker UI only
 - UI stack: shadcn (preset `b2oDq0a9a`, radix-nova) + Tailwind v4 (`@tailwindcss/vite`); `index.html` uses `class="dark"` for the dark theme
 - shadcn `Button` applies `[&_svg:not([class*='size-'])]:size-4` to child SVGs — `IconSvg` must set inline width/height (shared `ICON_GRID_SIZE` / `ICON_DETAIL_SIZE`) so grid icons are not clamped to 16px
 - Picker states use theme tokens: included → `primary`; focused grid cell → `ring` / `muted`; sidebar active row → `sidebar-accent` / `sidebar-primary`
 - oxlint `ignorePatterns`: `src/components/ui/**`, `src/lib/utils.ts` (generated shadcn)
-- oxlint `no-underscore-dangle`: allow `__ICONS_SERVER_URL__` (Vite `define` global)
+- oxlint `no-underscore-dangle`: allow `__ICONS_API_URL__` and `__APP_BRANDING__` (Vite `define` globals)
+- Config merge: `lucide-manager.defaults.json` → host `lucide-manager.config.json` → env (`LUCIDE_MANAGER_OPEN`, `LUCIDE_MANAGER_HOST_CWD`); shape uses `iconsApi` (host-owned API, e.g. port 3001) and `manager.server` (picker Vite dev server, e.g. port 5199)
+- Optional `manager.appBranding`: `{ title, img, showInSidebar }`; defaults in `lucide-manager.defaults.json` and `DEFAULT_APP_BRANDING` in `defaults.constants.ts`
+- Sidebar/header chrome: shared `h-14` via `APP_CHROME_ROW_CLASS` / `APP_CHROME_ROW_SIDEBAR_CLASS` in `app-chrome.constants.ts`
 - oxlint `react/react-in-jsx-scope`: `off` when `tsconfig` uses `jsx: react-jsx`
 - `tsconfig.json`: `lib` includes `ES2023` for `Array.prototype.toSorted` types; `target` stays `ES2022`
 - Path alias `@/*` → `./src/*` in both `tsconfig.json` and `vite.config.ts`

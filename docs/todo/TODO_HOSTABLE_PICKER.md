@@ -1,6 +1,8 @@
 # TODO — Hostable Picker
 
 > **Status:** Not started.
+>
+> **Note (2026-06-04):** Runtime config is now merged JSON + Vite `define` (`__ICONS_API_URL__`, `__APP_BRANDING__`). A hostable refactor should replace globals with explicit React props or a small config provider — see `LucideManagerResolvedConfig` in `src/config/lucide-manager.config.types.ts`.
 
 Refactor `@finografic/lucide-manager` so the picker can be hosted in more than one shell:
 

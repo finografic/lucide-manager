@@ -1,16 +1,11 @@
-/** Injected by Vite define — resolves to the Hono server URL at build time. */
-declare const __ICONS_SERVER_URL__: string;
+/** Injected by Vite define — host icons API base URL (Hono server, not the Vite picker). */
+declare const __ICONS_API_URL__: string;
+
+/** Injected by Vite define — resolved manager.appBranding from merged config. */
+declare const __APP_BRANDING__: {
+  title: string;
+  img: string;
+  showInSidebar: boolean;
+};
 
 declare module '*.css' {}
-
-declare module 'eslint-plugin-markdownlint' {
-  import type { Linter } from 'eslint';
-  const plugin: Linter.Plugin;
-  export default plugin;
-}
-
-declare module 'eslint-plugin-markdownlint/parser.js' {
-  import type { Linter } from 'eslint';
-  const parser: Linter.Parser;
-  export default parser;
-}

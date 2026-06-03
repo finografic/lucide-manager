@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/finografic/lucide-manager/lucide-manager.config.schema.json",
+  "title": "Lucide Manager configuration",
+  "description": "Configuration for @finografic/lucide-manager. Package defaults (lucide-manager.defaults.json) and host overrides (lucide-manager.config.json) share this schema. Keep in sync with LucideManagerConfig in src/config/lucide-manager.config.types.ts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["iconsApi", "manager"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference for IDE validation (not read at runtime)."
+    },
+    "iconsApi": {
+      "type": "object",
+      "description": "Host icons API (external to lucide-manager). Browser calls GET/POST /api/icons-json here.",
+      "additionalProperties": false,
+      "required": ["host", "port"],
+      "properties": {
+        "host": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Hostname or IP of the host icons API server (no scheme). Example: localhost"
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535,
+          "description": "TCP port of the host icons API server. Typical: 3001"
+        }
+      }
+    },
+    "manager": {
+      "type": "object",
+      "description": "This package (lucide-manager) — picker UI dev server and related settings.",
+      "required": ["server"],
+      "additionalProperties": true,
+      "properties": {
+        "server": {
+          "type": "object",
+          "description": "Vite dev server that serves the picker UI.",
+          "additionalProperties": false,
+          "required": ["port", "openOnStart"],
+          "properties": {
+            "port": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 65535,
+              "description": "TCP port for the picker UI Vite dev server. Typical: 5199"
+            },
+            "openOnStart": {
+              "type": "boolean",
+              "description": "Open the browser when the picker dev server starts."
+            }
+          }
+        },
+        "appBranding": {
+          "type": "object",
+          "description": "Optional host override for picker logo and title. Omitted keys fall back to package defaults.",
+          "additionalProperties": false,
+          "required": ["title", "img", "showInSidebar"],
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Application title shown in the sidebar chrome."
+            },
+            "img": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Logo URL or root-relative path (e.g. /lucide.png)."
+            },
+            "showInSidebar": {
+              "type": "boolean",
+              "description": "When false, hide logo and title from the sidebar (header row height is unchanged on the main pane)."
+            }
+          }
+        }
+      }
+    }
+  }
+}

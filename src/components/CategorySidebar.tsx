@@ -7,9 +7,11 @@ import type { ReactNode } from 'react';
  * "All" resets category filter. "Included" filters to selected icons only.
  */
 
+import type { LucideManagerAppBranding } from '@/config/lucide-manager.config.types';
+
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
+import { APP_CHROME_ROW_SIDEBAR_CLASS } from '@/config/app-chrome.constants';
 import { cn } from '@/lib/utils';
 
 interface Category {
@@ -19,6 +21,7 @@ interface Category {
 }
 
 interface CategorySidebarProps {
+  appBranding: LucideManagerAppBranding;
   categories: Category[];
   activeCategory: string | null;
   showIncludedOnly: boolean;
@@ -59,6 +62,7 @@ function SidebarItem({
 }
 
 export function CategorySidebar({
+  appBranding,
   categories,
   activeCategory,
   showIncludedOnly,
@@ -68,11 +72,17 @@ export function CategorySidebar({
 }: CategorySidebarProps) {
   return (
     <aside className="flex h-full w-[220px] shrink-0 flex-col border-r border-sidebar-border bg-sidebar">
-      <div className="flex shrink-0 items-center gap-1.5 px-3.5 py-3.5 text-[15px] font-bold text-sidebar-foreground">
-        <img src="/lucide.png" alt="" className="size-6" />
-        <span>Lucide Manager</span>
-      </div>
-      <Separator className="bg-sidebar-border" />
+      {appBranding.showInSidebar ? (
+        <div
+          className={cn(
+            APP_CHROME_ROW_SIDEBAR_CLASS,
+            'gap-1.5 px-3.5 text-[15px] font-bold text-sidebar-foreground',
+          )}
+        >
+          <img src={appBranding.img} alt="" className="size-6 shrink-0" />
+          <span className="truncate">{appBranding.title}</span>
+        </div>
+      ) : null}
 
       <ScrollArea className="min-h-0 flex-1 px-2.5 py-4">
         <div className="flex flex-col gap-1.5">
@@ -95,7 +105,7 @@ export function CategorySidebar({
             <span className="text-[11px] opacity-70">{includedCount}</span>
           </SidebarItem>
 
-          <Separator className="my-2" />
+          <div className="my-2 h-px bg-border" />
 
           <div className="px-2.5 pb-1 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
             Categories

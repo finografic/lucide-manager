@@ -3,10 +3,12 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
-import { SERVER } from './src/config/defaults.constants';
-import { loadConfig } from './src/config/loadConfig';
+import { loadConfig } from './src/config/load-config.utils';
 
-const { serverUrl, open } = loadConfig();
+const config = loadConfig();
+const { iconsApi, manager } = config;
+const { port: pickerPort, openOnStart } = manager.server;
+const { appBranding } = manager;
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
@@ -16,13 +18,12 @@ export default defineConfig({
     },
   },
   define: {
-    // Injected at build/dev time so the browser bundle can reach the Hono server.
-    // Read from lucide-manager.config.json → serverUrl, or defaults to localhost:3001.
-    __ICONS_SERVER_URL__: JSON.stringify(serverUrl),
+    __ICONS_API_URL__: JSON.stringify(iconsApi.url),
+    __APP_BRANDING__: JSON.stringify(appBranding),
   },
   server: {
-    strictPort: false, // allow auto-increment
-    port: SERVER.port,
-    open: open ? `http://localhost:${SERVER.port}/` : false,
+    strictPort: false,
+    port: pickerPort,
+    open: openOnStart ? `http://localhost:${pickerPort}/` : false,
   },
 });

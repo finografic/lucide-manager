@@ -17,6 +17,7 @@ import { useLucideData } from './hooks/useLucideData';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
+import { APP_CHROME_ROW_CLASS } from '@/config/app-chrome.constants';
 import { cn } from '@/lib/utils';
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -65,6 +66,8 @@ const CATEGORY_LABELS: Record<string, string> = {
   'weather': 'Weather',
 };
 
+const appBranding = __APP_BRANDING__;
+
 export function App() {
   const { icons: allIcons, loading: lucideLoading, error: lucideError } = useLucideData();
   const {
@@ -86,6 +89,10 @@ export function App() {
 
   useEffect(() => {
     searchRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    document.title = appBranding.title;
   }, []);
 
   useEffect(() => {
@@ -161,6 +168,7 @@ export function App() {
   return (
     <div className="flex h-screen bg-background text-foreground">
       <CategorySidebar
+        appBranding={appBranding}
         categories={categories}
         activeCategory={activeCategory}
         showIncludedOnly={showIncludedOnly}
@@ -170,7 +178,7 @@ export function App() {
       />
 
       <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-        <header className="flex shrink-0 items-center gap-4 border-b border-border px-6 py-3.5">
+        <header className={cn(APP_CHROME_ROW_CLASS, 'gap-4 px-6')}>
           <InputGroup className="max-w-[480px] flex-1">
             <InputGroupAddon>
               <Search className="size-3.5 opacity-40" />

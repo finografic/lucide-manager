@@ -12,7 +12,7 @@ export default defineConfig({
     // Side-effect CSS imports (Astro layouts, global styles) are intentional.
     'import/no-unassigned-import': ['warn', { allow: ['**/*.css'] }],
     // Vite `define` injects this global at build time.
-    'no-underscore-dangle': ['warn', { allow: ['__ICONS_SERVER_URL__'] }],
+    'no-underscore-dangle': ['warn', { allow: ['__ICONS_API_URL__', '__APP_BRANDING__'] }],
   },
   options: {
     ...oxlintClientConfig.options,
