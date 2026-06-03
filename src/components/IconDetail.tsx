@@ -14,6 +14,7 @@ import { IconSvg } from './IconSvg';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { ICON_DETAIL_SIZE } from '@/config/defaults.constants';
 import { cn } from '@/lib/utils';
 
 interface IconDetailProps {
@@ -52,7 +53,7 @@ export function IconDetail({ icon, selected, entry, onToggle, onRename, onClose 
           selected ? 'text-primary' : 'text-muted-foreground',
         )}
       >
-        <IconSvg node={icon.node} size={36} />
+        <IconSvg node={icon.node} size={ICON_DETAIL_SIZE} />
       </div>
 
       <div className="min-w-0 flex-1">

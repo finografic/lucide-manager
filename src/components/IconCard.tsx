@@ -9,6 +9,7 @@ import type { LucideIcon } from '../hooks/useLucideData';
 
 import { IconSvg } from './IconSvg';
 import { Button } from '@/components/ui/button';
+import { ICON_GRID_SIZE } from '@/config/defaults.constants';
 import { cn } from '@/lib/utils';
 
 interface IconCardProps {
@@ -16,17 +17,42 @@ interface IconCardProps {
   isFocused: boolean;
   isIncluded: boolean;
   onClick: (icon: LucideIcon) => void;
+  /** Double-click or keyboard confirm — toggles registry inclusion (same as footer Add/Remove). */
+  onConfirm: (icon: LucideIcon) => void;
 }
 
-export function IconCard({ icon, isFocused, isIncluded, onClick }: IconCardProps) {
+const VERTICAL_SHIFT = '3px';
+
+/** Tweak grid cell layout here — plain px/rem */
+const CARD_LAYOUT = {
+  paddingTop: `calc(1rem + (${VERTICAL_SHIFT}))`,
+  paddingBottom: `calc(1rem - (${VERTICAL_SHIFT}))`,
+  paddingInline: 6,
+  gapBetweenIconAndLabel: 6,
+} as const;
+
+export function IconCard({ icon, isFocused, isIncluded, onClick, onConfirm }: IconCardProps) {
   return (
     <Button
       type="button"
       variant="ghost"
-      title={icon.name}
+      role="checkbox"
+      aria-checked={isIncluded}
+      aria-label={`${icon.name}. Double-click or Space when focused to add or remove.`}
       onClick={() => onClick(icon)}
+      onDoubleClick={(e) => {
+        e.preventDefault();
+        onConfirm(icon);
+      }}
+      style={{
+        paddingTop: CARD_LAYOUT.paddingTop,
+        paddingBottom: CARD_LAYOUT.paddingBottom,
+        paddingLeft: CARD_LAYOUT.paddingInline,
+        paddingRight: CARD_LAYOUT.paddingInline,
+        gap: CARD_LAYOUT.gapBetweenIconAndLabel,
+      }}
       className={cn(
-        'flex h-auto min-w-0 flex-col items-center justify-center gap-1.5 rounded-lg border-2 px-1.5 py-5 transition-[background,border-color,color] duration-120',
+        'flex h-auto min-w-0 flex-col items-center justify-center rounded-lg border-2 transition-[background,border-color,color] duration-120',
         isFocused && 'border-ring bg-muted/60 text-foreground hover:bg-muted/60 hover:text-foreground',
         !isFocused &&
           isIncluded &&
@@ -34,9 +60,7 @@ export function IconCard({ icon, isFocused, isIncluded, onClick }: IconCardProps
         !isFocused && !isIncluded && 'border-transparent text-muted-foreground hover:bg-accent/50',
       )}
     >
-      <div className="px-2.5 py-0.5">
-        <IconSvg node={icon.node} size={28} />
-      </div>
+      <IconSvg node={icon.node} size={ICON_GRID_SIZE} />
       <span className="w-full truncate text-center text-[10px] leading-tight opacity-70">{icon.name}</span>
     </Button>
   );

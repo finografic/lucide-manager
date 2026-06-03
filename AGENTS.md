@@ -83,38 +83,28 @@ Shared across Claude Code, Cursor, and GitHub Copilot.
 
 ## Git Policy
 
-- IMPORTANT: NEVER include `Co-Authored-By` lines in commit messages. Non-negotiable.
+- Do not include `Co-Authored-By` lines in commit messages.
 - `.github/instructions/git/git-policy.instructions.md` (see Commits and Releases sections)
 
 ---
 
 ## Learned User Preferences
 
-- Apply recipes inside design-system components; client uses `<Button variant="..." />` without calling the recipe
-- Use `sva` as the default for any Ark-based (multi-slot) component; use `cva` only for genuinely single-DOM-element components (Badge, Spinner, Text)
-- Translate Ark UI example CSS files into Panda `sva` recipes — treat them as style specifications, never import them as CSS modules directly
-- Always import `cx` from `@styled-system/css`; never create local `cx` helper functions inside components
-- Document which slot a recipe targets (name or JSDoc); keep recipe naming, structure, and variant conventions consistent with existing components
-- **No separate `*.types.ts` files** — recipe type and explicit union types (`ButtonVariant`, `ButtonPalette`) live at the **bottom of the `*.recipe.ts` file**, co-located with the recipe. Import `RecipeProps` from `'../../types/recipes.types'`. Never index `RecipeProps` directly for variant/palette keys.
-- **Recipe type naming:** `sva` recipes export `*RecipeProps`; `cva` recipes export `*Variants`. Some older SVA recipes (Switch, Dialog, RadioGroup, etc.) still use `*Variants` — align to `*RecipeProps` when touching those files.
-- Button uses the prop name `palette` (not `colorScheme`) to avoid confusion with the CSS `color-scheme` property
-- Use `@stylistic/stylelint-plugin` for Stylelint 17; `stylelint-stylistic` is deprecated and incompatible
+- When integrating shadcn, keep preset oklch `:root` / `.dark` tokens in `src/index.css` — do not replace them with legacy hex overrides that hide the chosen theme
+- Icon grid active/included accents: named constants in `src/config/colors.ts` must reference theme CSS variables (`var(--primary)`, `var(--ring)`), kept in sync with `index.css`
+- Put the `shadcn` npm package in `devDependencies`; use `pnpm dlx shadcn@latest add …` for one-off component adds
+- Icon picker selection: single-click focuses and opens the footer; double-click, Space (when an icon is focused, not in text inputs), and footer Add/Remove all toggle registry inclusion and save to `icons.json`
 - Ignore `.cursor/chats` and `.cursor/hooks`; commit `.cursor/mcp.json`
-- Use Panda MCP for design-system questions (breakpoints, tokens, recipes) when relevant without explicit user ask
-- Use Ark UI MCP for component props, examples, and styling guide questions — configured in `.vscode/mcp.json`
-- Convenience wrappers use **`{Component}DS`** as the primary name + simplified handlers (e.g. `onChange(checked)` not Ark's `onCheckedChange` detail object); bare compounds keep Ark prop names
-- No `*Field` aliases on `*DS` wrappers — export `*DS` directly, no duplicate names.
-- DS authoring/refactors: `sva-components.instructions.md` + `cva-components.instructions.md`; recipe results named `styles` / `stylesComponent`; inline single-use `cx(...)`; no deprecated props (consumer overview: `design-system.instructions.md`)
+- Install VS Code extensions missing from Cursor’s marketplace via Command Palette `Extensions: Install from VSIX…` or `cursor --install-extension <path>.vsix`
 
 ## Learned Workspace Facts
 
-- Client `panda.config` must include `./node_modules/@finografic/design-system/src/**/*.{ts,tsx}` for recipe CSS to be generated
-- CSS import order: design-system `styles/global.css` first, then Panda `styled-system/styles.css`
-- Reset must be wrapped in `@layer reset`; `global.css` declares `@layer reset, base, tokens, recipes, utilities`
-- Shared Ark-style trigger chrome: `rootTriggerRecipe` in `packages/design-system/src/recipes/root-trigger.recipe.ts`; `Dialog.Trigger` composes it — reuse on other overlay triggers with `cx` as you add them
-- Switch: `switchRecipe` is `sva` + `createStyleContext`; convenience export is `SwitchDS` (styled compound remains `Switch`)
-- Panda MCP in monorepo: command `pnpm`, args `["--filter", "@finografic/design-system", "exec", "panda", "mcp"]`
-- `panda.config.ts` and `@pandacss/dev` live in `packages/design-system`
-- Watch script for linked library: `pnpm watch` runs `panda codegen -w` and `tsdown --watch` in parallel
-- Ark reference CSS files (copied from Ark UI docs) live in `src/ark-reference/css/` — treat as specs for translating into `sva` recipes; never import or ship them as CSS modules
-- `colorPalette` explicit-slot rule: in an `sva`, any slot that uses `colorPalette.*` inside a **conditional state** (`_checked`, `_hover`, `_expanded`, etc.) must have `colorPalette` set **directly on that slot** in the palette variant — inheritance from root is not sufficient for Panda's atomic extraction of conditional rules. See `sva-components.instructions.md` § `colorPalette in slot recipes`.
+- `@finografic/lucide-manager` is a Vite devtool + CLI; runtime entry is `bin/lucide-manager.js`, not public exports from `src/index.ts`
+- UI stack: shadcn (preset `b2oDq0a9a`, radix-nova) + Tailwind v4 (`@tailwindcss/vite`); `index.html` uses `class="dark"` for the dark theme
+- shadcn `Button` applies `[&_svg:not([class*='size-'])]:size-4` to child SVGs — `IconSvg` must set inline width/height (shared `ICON_GRID_SIZE` / `ICON_DETAIL_SIZE`) so grid icons are not clamped to 16px
+- Picker states use theme tokens: included → `primary`; focused grid cell → `ring` / `muted`; sidebar active row → `sidebar-accent` / `sidebar-primary`
+- oxlint `ignorePatterns`: `src/components/ui/**`, `src/lib/utils.ts` (generated shadcn)
+- oxlint `no-underscore-dangle`: allow `__ICONS_SERVER_URL__` (Vite `define` global)
+- oxlint `react/react-in-jsx-scope`: `off` when `tsconfig` uses `jsx: react-jsx`
+- `tsconfig.json`: `lib` includes `ES2023` for `Array.prototype.toSorted` types; `target` stays `ES2022`
+- Path alias `@/*` → `./src/*` in both `tsconfig.json` and `vite.config.ts`

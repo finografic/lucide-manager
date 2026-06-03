@@ -90,11 +90,29 @@ export function App() {
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') setFocusedIcon(null);
+      if (e.key === 'Escape') {
+        setFocusedIcon(null);
+        return;
+      }
+
+      if (e.key !== ' ' && e.code !== 'Space') return;
+
+      const { target } = e;
+      if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) return;
+      if (target instanceof HTMLElement && target.isContentEditable) return;
+
+      if (!focusedIcon) return;
+
+      e.preventDefault();
+      toggleIcon(focusedIcon.name);
     }
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, []);
+  }, [focusedIcon, toggleIcon]);
+
+  function handleIconConfirm(icon: LucideIcon) {
+    toggleIcon(icon.name);
+  }
 
   const categories = useMemo(() => {
     const countMap = new Map<string, number>();
@@ -234,6 +252,7 @@ export function App() {
                         isFocused={focusedIcon?.name === icon.name}
                         isIncluded={isSelected(icon.name)}
                         onClick={setFocusedIcon}
+                        onConfirm={handleIconConfirm}
                       />
                     ))}
                   </div>

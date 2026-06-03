@@ -3,7 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
-import { SERVER } from './src/config/defaults';
+import { SERVER } from './src/config/defaults.constants';
 import { loadConfig } from './src/config/loadConfig';
 
 const { serverUrl, open } = loadConfig();

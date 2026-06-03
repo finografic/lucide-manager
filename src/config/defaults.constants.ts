@@ -18,3 +18,9 @@ export const SERVER = {
   port: 5199,
   open: true,
 } as const;
+
+/** Grid preview size (~15% above original 28px). */
+export const ICON_GRID_SIZE = 28;
+
+/** Detail footer preview size (~15% above original 36px). */
+export const ICON_DETAIL_SIZE = 42;

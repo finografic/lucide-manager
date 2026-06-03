@@ -18,7 +18,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { CONFIG_FILENAME, DEFAULT_SERVER_URL, SERVER } from './defaults';
+import { CONFIG_FILENAME, DEFAULT_SERVER_URL, SERVER } from './defaults.constants';
 
 export interface LucideManagerConfig {
   serverUrl: string;
