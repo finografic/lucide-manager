@@ -27,13 +27,16 @@ _Nothing active right now — pick from P1._
 
 ## P1 — Next Up
 
-_No items yet._
+- Hostable picker refactor — extract reusable picker UI/core so the standalone Vite app and
+  embedded hosts such as LLAAB can share one implementation.
+  See [TODO_HOSTABLE_PICKER.md](./TODO_HOSTABLE_PICKER.md).
 
 ---
 
 ## P2 — Planned
 
-_No items yet._
+- Embedded host path for LLAAB — use a fast integration approach first (proxy or iframe route)
+  before investing in the full hostable-picker refactor.
 
 ---
 
