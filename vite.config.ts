@@ -1,3 +1,5 @@
+import path from 'node:path';
+import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
@@ -7,7 +9,12 @@ import { loadConfig } from './src/config/loadConfig';
 const { serverUrl, open } = loadConfig();
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      '@': path.resolve(import.meta.dirname, './src'),
+    },
+  },
   define: {
     // Injected at build/dev time so the browser bundle can reach the Hono server.
     // Read from lucide-manager.config.json → serverUrl, or defaults to localhost:3001.

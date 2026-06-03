@@ -5,19 +5,19 @@
  * are registered in the DS icon registry (icons.json).
  */
 
+import { Search, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { LucideIcon } from './hooks/useLucideData';
-
-import { COLORS } from './config/colors';
 
 import { CategorySidebar } from './components/CategorySidebar';
 import { IconCard } from './components/IconCard';
 import { IconDetail } from './components/IconDetail';
 import { useIconsJson } from './hooks/useIconsJson';
 import { useLucideData } from './hooks/useLucideData';
-
-// ── Category display labels ────────────────────────────────────────────────────
-// Matches the titles from lucide's categoriesData.json
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
 const CATEGORY_LABELS: Record<string, string> = {
   'accessibility': 'Accessibility',
@@ -65,8 +65,6 @@ const CATEGORY_LABELS: Record<string, string> = {
   'weather': 'Weather',
 };
 
-// ── App ────────────────────────────────────────────────────────────────────────
-
 export function App() {
   const { icons: allIcons, loading: lucideLoading, error: lucideError } = useLucideData();
   const {
@@ -86,12 +84,10 @@ export function App() {
 
   const searchRef = useRef<HTMLInputElement>(null);
 
-  // Focus search on mount
   useEffect(() => {
     searchRef.current?.focus();
   }, []);
 
-  // Keyboard: Escape closes detail panel
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape') setFocusedIcon(null);
@@ -99,8 +95,6 @@ export function App() {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
-
-  // ── Derived categories with counts ──────────────────────────────────────────
 
   const categories = useMemo(() => {
     const countMap = new Map<string, number>();
@@ -114,8 +108,6 @@ export function App() {
       .filter((cat) => cat.count > 0)
       .toSorted((a, b) => a.label.localeCompare(b.label));
   }, [allIcons]);
-
-  // ── Filtered icons ───────────────────────────────────────────────────────────
 
   const filteredIcons = useMemo(() => {
     let result = allIcons;
@@ -136,142 +128,71 @@ export function App() {
     return result;
   }, [allIcons, query, activeCategory, showIncludedOnly, isSelected]);
 
-  // ── Focused entry ────────────────────────────────────────────────────────────
-
   const focusedEntry = focusedIcon ? entries.find((e) => e.lucideName === focusedIcon.name) : undefined;
-
-  // ── Render ───────────────────────────────────────────────────────────────────
 
   const loading = lucideLoading || jsonLoading;
 
+  const filterLabel = query
+    ? ` matching "${query}"`
+    : activeCategory
+      ? ` in ${CATEGORY_LABELS[activeCategory] ?? activeCategory}`
+      : showIncludedOnly
+        ? ' included'
+        : '';
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100vh',
-        background: COLORS.bgApp,
-        color: COLORS.textPrimary,
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-      }}
-    >
-      {/* ── Header ──────────────────────────────────────────────────────────── */}
-      <header
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '16px',
-          padding: '14px 24px 14px 14px',
-          borderBottom: `1px solid ${COLORS.border}`,
-          flexShrink: 0,
-        }}
-      >
-        <div
-          style={{
-            fontWeight: 700,
-            fontSize: '15px',
-            color: COLORS.textPrimary,
-            flexShrink: 0,
-            padding: '0 0.4rem 0.1rem 0',
-          }}
-        >
-          <img
-            src="/lucide.png"
-            alt="Lucide Manager"
-            style={{
-              width: '24px',
-              height: '24px',
-              verticalAlign: 'middle',
-              marginRight: '0.4rem',
-            }}
-          />
-          <span style={{ verticalAlign: 'middle' }}>Lucide Manager</span>
+    <div className="flex h-screen flex-col bg-background text-foreground">
+      <header className="flex shrink-0 items-center gap-4 border-b border-border px-3.5 py-3.5 pr-6">
+        <div className="flex shrink-0 items-center gap-1.5 text-[15px] font-bold">
+          <img src="/lucide.png" alt="" className="size-6" />
+          <span>Lucide Manager</span>
         </div>
 
-        {/* Search */}
-        <div style={{ position: 'relative', flex: 1, maxWidth: '480px' }}>
-          <svg
-            style={{
-              position: 'absolute',
-              left: '10px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              opacity: 0.4,
-            }}
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <path d="m21 21-4.35-4.35" />
-          </svg>
-          <input
+        <InputGroup className="max-w-[480px] flex-1">
+          <InputGroupAddon>
+            <Search className="size-3.5 opacity-40" />
+          </InputGroupAddon>
+          <InputGroupInput
             ref={searchRef}
             type="text"
             placeholder="Search icons…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '7px 12px 7px 32px',
-              borderRadius: '8px',
-              border: `1px solid ${COLORS.border}`,
-              background: COLORS.bgSurface,
-              color: COLORS.textPrimary,
-              fontSize: '14px',
-              outline: 'none',
-              boxSizing: 'border-box',
-            }}
           />
-          {query && (
-            <button
-              onClick={() => setQuery('')}
-              style={{
-                position: 'absolute',
-                right: '8px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: 'none',
-                border: 'none',
-                color: COLORS.textDim,
-                cursor: 'pointer',
-                fontSize: '16px',
-                lineHeight: 1,
-                padding: '0 2px',
-              }}
-            >
-              ×
-            </button>
-          )}
-        </div>
+          {query ? (
+            <InputGroupAddon align="inline-end">
+              <InputGroupButton
+                type="button"
+                size="icon-xs"
+                variant="ghost"
+                aria-label="Clear search"
+                onClick={() => setQuery('')}
+              >
+                <X className="size-3.5" />
+              </InputGroupButton>
+            </InputGroupAddon>
+          ) : null}
+        </InputGroup>
 
-        {/* Status */}
-        <div style={{ fontSize: '13px', color: COLORS.textDim, flexShrink: 0, marginLeft: 'auto' }}>
+        <div className="ml-auto shrink-0 text-[13px] text-muted-foreground">
           {saving ? (
-            <span style={{ color: COLORS.saving }}>Saving…</span>
+            <span className="text-chart-1">Saving…</span>
           ) : saveError ? (
-            <span style={{ color: COLORS.error }}>Save failed</span>
+            <span className="text-destructive">Save failed</span>
           ) : (
             <span>
-              <span style={{ color: COLORS.included, fontWeight: 600 }}>
+              <span className="font-semibold text-primary">
                 {entries.length}
-                <span style={{ opacity: 0.55 }}>{' included · '}</span>
+                <span className="text-primary/55">{' included · '}</span>
               </span>
-              <span style={{ color: COLORS.textMuted }}>{allIcons.length || '…'}</span>
-              <span style={{ color: COLORS.textMuted }}>{' total'}</span>
+              <span>{allIcons.length || '…'}</span>
+              <span>{' total'}</span>
             </span>
           )}
         </div>
       </header>
 
-      {/* ── Body ────────────────────────────────────────────────────────────── */}
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        {/* Sidebar */}
+      <div className="flex min-h-0 flex-1 overflow-hidden">
         <CategorySidebar
           categories={categories}
           activeCategory={activeCategory}
@@ -281,79 +202,49 @@ export function App() {
           onToggleIncluded={() => setShowIncludedOnly((prev) => !prev)}
         />
 
-        {/* Grid area */}
-        <main
-          style={{
-            flex: 1,
-            overflowY: 'auto',
-            padding: '16px',
-            paddingBottom: focusedIcon ? '120px' : '16px',
-          }}
-        >
-          {loading ? (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '200px',
-                color: COLORS.textDimmer,
-              }}
-            >
-              Loading icons…
+        <main className={cn('min-w-0 flex-1', focusedIcon ? 'pb-[120px]' : '')}>
+          <ScrollArea className="h-full">
+            <div className="p-4">
+              {loading ? (
+                <div className="space-y-3">
+                  <Skeleton className="h-4 w-32" />
+                  <div className="grid grid-cols-[repeat(auto-fill,minmax(88px,1fr))] gap-1.5">
+                    {Array.from({ length: 24 }, (_, i) => (
+                      <Skeleton key={i} className="aspect-square rounded-lg" />
+                    ))}
+                  </div>
+                </div>
+              ) : lucideError ? (
+                <p className="p-6 text-destructive">Failed to load Lucide data: {lucideError}</p>
+              ) : filteredIcons.length === 0 ? (
+                <p className="flex h-[200px] items-center justify-center text-muted-foreground/70">
+                  No icons match &ldquo;{query}&rdquo;
+                </p>
+              ) : (
+                <>
+                  <p className="mb-3 text-xs text-muted-foreground/70">
+                    {filteredIcons.length} icon{filteredIcons.length !== 1 ? 's' : ''}
+                    {filterLabel}
+                  </p>
+                  <div className="grid grid-cols-[repeat(auto-fill,minmax(88px,1fr))] gap-1.5">
+                    {filteredIcons.map((icon) => (
+                      <IconCard
+                        key={icon.name}
+                        icon={icon}
+                        isFocused={focusedIcon?.name === icon.name}
+                        isIncluded={isSelected(icon.name)}
+                        onClick={setFocusedIcon}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
-          ) : lucideError ? (
-            <div style={{ padding: '24px', color: COLORS.error }}>
-              Failed to load Lucide data: {lucideError}
-            </div>
-          ) : filteredIcons.length === 0 ? (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '200px',
-                color: COLORS.textDimmer,
-              }}
-            >
-              No icons match &ldquo;{query}&rdquo;
-            </div>
-          ) : (
-            <>
-              <div style={{ fontSize: '12px', color: COLORS.textDimmer, marginBottom: '12px' }}>
-                {filteredIcons.length} icon{filteredIcons.length !== 1 ? 's' : ''}
-                {query
-                  ? ` matching "${query}"`
-                  : activeCategory
-                    ? ` in ${CATEGORY_LABELS[activeCategory] ?? activeCategory}`
-                    : showIncludedOnly
-                      ? ' included'
-                      : ''}
-              </div>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(88px, 1fr))',
-                  gap: '6px',
-                }}
-              >
-                {filteredIcons.map((icon) => (
-                  <IconCard
-                    key={icon.name}
-                    icon={icon}
-                    isFocused={focusedIcon?.name === icon.name}
-                    isIncluded={isSelected(icon.name)}
-                    onClick={setFocusedIcon}
-                  />
-                ))}
-              </div>
-            </>
-          )}
+          </ScrollArea>
         </main>
       </div>
 
-      {/* ── Detail panel ────────────────────────────────────────────────────── */}
-      {focusedIcon && (
+      {focusedIcon ? (
         <IconDetail
           icon={focusedIcon}
           selected={isSelected(focusedIcon.name)}
@@ -362,7 +253,7 @@ export function App() {
           onRename={renameExport}
           onClose={() => setFocusedIcon(null)}
         />
-      )}
+      ) : null}
     </div>
   );
 }

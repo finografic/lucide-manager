@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 /**
  * CategorySidebar.tsx
  *
@@ -5,9 +7,10 @@
  * "All" resets category filter. "Included" filters to selected icons only.
  */
 
-import React from 'react';
-
-import { COLORS } from '../config/colors';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
 
 interface Category {
   name: string;
@@ -17,11 +20,42 @@ interface Category {
 
 interface CategorySidebarProps {
   categories: Category[];
-  activeCategory: string | null; // null = "All"
+  activeCategory: string | null;
   showIncludedOnly: boolean;
   includedCount: number;
   onSelectCategory: (name: string | null) => void;
   onToggleIncluded: () => void;
+}
+
+function SidebarItem({
+  active,
+  includedTone,
+  children,
+  onClick,
+}: {
+  active: boolean;
+  includedTone?: boolean;
+  children: ReactNode;
+  onClick: () => void;
+}) {
+  return (
+    <Button
+      type="button"
+      variant="ghost"
+      onClick={onClick}
+      className={cn(
+        'h-auto w-full justify-between rounded-md border-l-2 py-1.5 pr-2.5 pl-2 text-[13px] font-normal',
+        active &&
+          !includedTone &&
+          'border-l-sidebar-primary bg-sidebar-accent text-sidebar-accent-foreground',
+        active && includedTone && 'border-l-primary bg-primary/10 text-primary',
+        !active &&
+          'border-l-transparent text-muted-foreground hover:bg-accent/50 hover:text-muted-foreground',
+      )}
+    >
+      {children}
+    </Button>
+  );
 }
 
 export function CategorySidebar({
@@ -32,98 +66,50 @@ export function CategorySidebar({
   onSelectCategory,
   onToggleIncluded,
 }: CategorySidebarProps) {
-  const itemStyle = (active: boolean): React.CSSProperties => ({
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '0.4rem 0.6rem',
-    borderRadius: '6px',
-    cursor: 'pointer',
-    background: active ? COLORS.activeBg : 'transparent',
-    color: active ? COLORS.active : COLORS.textMuted,
-    fontSize: '13px',
-    border: 'none',
-    width: '100%',
-    textAlign: 'left',
-    transition: 'background 100ms, color 100ms',
-  });
-
   return (
-    <aside
-      style={{
-        width: '220px',
-        flexShrink: 0,
-        overflowY: 'auto',
-        borderRight: `1px solid ${COLORS.border}`,
-        padding: '1rem 0.6rem',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '6px',
-      }}
-    >
-      {/* View section */}
-      <div
-        style={{
-          fontSize: '11px',
-          color: COLORS.textDimmer,
-          padding: '4px 10px 6px',
-          fontWeight: 600,
-          letterSpacing: '0.05em',
-          textTransform: 'uppercase',
-        }}
-      >
-        View
-      </div>
+    <aside className="flex w-[220px] shrink-0 flex-col border-r border-sidebar-border bg-sidebar">
+      <ScrollArea className="flex-1 px-2.5 py-4">
+        <div className="flex flex-col gap-1.5">
+          <div className="px-2.5 pb-1.5 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
+            View
+          </div>
 
-      <button
-        style={itemStyle(!showIncludedOnly && activeCategory === null)}
-        onClick={() => {
-          onSelectCategory(null);
-          if (showIncludedOnly) onToggleIncluded();
-        }}
-      >
-        <span>All</span>
-      </button>
+          <SidebarItem
+            active={!showIncludedOnly && activeCategory === null}
+            onClick={() => {
+              onSelectCategory(null);
+              if (showIncludedOnly) onToggleIncluded();
+            }}
+          >
+            <span>All</span>
+          </SidebarItem>
 
-      <button
-        style={{
-          ...itemStyle(showIncludedOnly),
-          color: showIncludedOnly ? COLORS.included : COLORS.textMuted,
-          background: showIncludedOnly ? COLORS.includedBg : 'transparent',
-        }}
-        onClick={onToggleIncluded}
-      >
-        <span>Included</span>
-        <span style={{ fontSize: '11px', opacity: 0.7 }}>{includedCount}</span>
-      </button>
+          <SidebarItem active={showIncludedOnly} includedTone onClick={onToggleIncluded}>
+            <span>Included</span>
+            <span className="text-[11px] opacity-70">{includedCount}</span>
+          </SidebarItem>
 
-      {/* Categories section */}
-      <div
-        style={{
-          fontSize: '11px',
-          color: COLORS.textDimmer,
-          padding: '0.4rem 0.6rem 0.4rem',
-          fontWeight: 600,
-          letterSpacing: '0.05em',
-          textTransform: 'uppercase',
-        }}
-      >
-        Categories
-      </div>
+          <Separator className="my-2" />
 
-      {categories.map((cat) => (
-        <button
-          key={cat.name}
-          style={itemStyle(!showIncludedOnly && activeCategory === cat.name)}
-          onClick={() => {
-            onSelectCategory(cat.name);
-            if (showIncludedOnly) onToggleIncluded();
-          }}
-        >
-          <span>{cat.label}</span>
-          <span style={{ fontSize: '11px', opacity: 0.6 }}>{cat.count}</span>
-        </button>
-      ))}
+          <div className="px-2.5 pb-1 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
+            Categories
+          </div>
+
+          {categories.map((cat) => (
+            <SidebarItem
+              key={cat.name}
+              active={!showIncludedOnly && activeCategory === cat.name}
+              onClick={() => {
+                onSelectCategory(cat.name);
+                if (showIncludedOnly) onToggleIncluded();
+              }}
+            >
+              <span>{cat.label}</span>
+              <span className="text-[11px] opacity-60">{cat.count}</span>
+            </SidebarItem>
+          ))}
+        </div>
+      </ScrollArea>
     </aside>
   );
 }

@@ -7,8 +7,9 @@
 
 import type { LucideIcon } from '../hooks/useLucideData';
 
-import { COLORS } from '../config/colors';
 import { IconSvg } from './IconSvg';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 interface IconCardProps {
   icon: LucideIcon;
@@ -18,58 +19,25 @@ interface IconCardProps {
 }
 
 export function IconCard({ icon, isFocused, isIncluded, onClick }: IconCardProps) {
-  const borderColor = isFocused ? COLORS.active : isIncluded ? COLORS.included : 'transparent';
-  const bgColor = isFocused ? COLORS.activeBg : isIncluded ? COLORS.includedBg : 'transparent';
-  const textColor = isFocused ? COLORS.selected : isIncluded ? COLORS.included : COLORS.textSecondary;
-  const isHighlighted = isFocused || isIncluded;
-
   return (
-    <button
-      onClick={() => onClick(icon)}
+    <Button
+      type="button"
+      variant="ghost"
       title={icon.name}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '6px',
-        padding: '1.2rem 6px 0.8rem',
-        border: `2px solid ${borderColor}`,
-        borderRadius: '8px',
-        background: bgColor,
-        cursor: 'pointer',
-        color: textColor,
-        transition: 'background 120ms, border-color 120ms, color 120ms',
-        minWidth: 0,
-      }}
-      onMouseEnter={(e) => {
-        if (!isHighlighted) {
-          (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.06)';
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (!isHighlighted) {
-          (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
-        }
-      }}
+      onClick={() => onClick(icon)}
+      className={cn(
+        'flex h-auto min-w-0 flex-col items-center justify-center gap-1.5 rounded-lg border-2 px-1.5 py-5 transition-[background,border-color,color] duration-120',
+        isFocused && 'border-ring bg-muted/60 text-foreground hover:bg-muted/60 hover:text-foreground',
+        !isFocused &&
+          isIncluded &&
+          'border-primary bg-primary/10 text-primary hover:bg-primary/10 hover:text-primary',
+        !isFocused && !isIncluded && 'border-transparent text-muted-foreground hover:bg-accent/50',
+      )}
     >
-      <div style={{ padding: '0.1rem 0.6rem 0.1rem' }}>
+      <div className="px-2.5 py-0.5">
         <IconSvg node={icon.node} size={28} />
       </div>
-      <span
-        style={{
-          fontSize: '10px',
-          lineHeight: 1.2,
-          textAlign: 'center',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          width: '100%',
-          opacity: 0.7,
-        }}
-      >
-        {icon.name}
-      </span>
-    </button>
+      <span className="w-full truncate text-center text-[10px] leading-tight opacity-70">{icon.name}</span>
+    </Button>
   );
 }

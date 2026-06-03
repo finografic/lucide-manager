@@ -4,6 +4,7 @@ import type { OxlintConfig } from 'oxlint';
 
 export default defineConfig({
   ...oxlintClientConfig,
+  ignorePatterns: ['src/components/ui/**', 'src/lib/utils.ts'],
   rules: {
     ...oxlintClientConfig.rules,
     // react-jsx transform (tsconfig jsx: react-jsx) — React import not required for JSX.

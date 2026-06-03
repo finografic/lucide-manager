@@ -10,8 +10,11 @@ import { useEffect, useState } from 'react';
 import type { IconEntry } from '../hooks/useIconsJson';
 import type { LucideIcon } from '../hooks/useLucideData';
 
-import { COLORS } from '../config/colors';
 import { IconSvg } from './IconSvg';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
 interface IconDetailProps {
   icon: LucideIcon;
@@ -26,7 +29,6 @@ export function IconDetail({ icon, selected, entry, onToggle, onRename, onClose 
   const [editingName, setEditingName] = useState(false);
   const [nameInput, setNameInput] = useState(entry?.exportName ?? '');
 
-  // Sync input when entry changes (e.g. navigating between icons)
   useEffect(() => {
     setNameInput(entry?.exportName ?? '');
     setEditingName(false);
@@ -43,80 +45,36 @@ export function IconDetail({ icon, selected, entry, onToggle, onRename, onClose 
   const exportLabel = entry ? `${entry.exportName}Icon` : 'Not included';
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        background: COLORS.bgSurface,
-        borderTop: `1px solid ${COLORS.border}`,
-        padding: '16px 24px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '24px',
-        zIndex: 100,
-        boxShadow: '0 -4px 24px rgba(0,0,0,0.4)',
-      }}
-    >
-      {/* Large preview */}
+    <div className="fixed inset-x-0 bottom-0 z-100 flex items-center gap-6 border-t border-border bg-card px-6 py-4 shadow-[0_-4px_24px_rgba(0,0,0,0.4)]">
       <div
-        style={{
-          width: 72,
-          height: 72,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: 'rgba(255,255,255,0.04)',
-          borderRadius: '12px',
-          flexShrink: 0,
-          color: selected ? COLORS.selected : COLORS.textSecondary,
-        }}
+        className={cn(
+          'flex size-[72px] shrink-0 items-center justify-center rounded-xl bg-muted/40',
+          selected ? 'text-primary' : 'text-muted-foreground',
+        )}
       >
         <IconSvg node={icon.node} size={36} />
       </div>
 
-      {/* Info */}
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div
-          style={{
-            fontSize: '16px',
-            fontWeight: 600,
-            color: COLORS.textPrimary,
-            marginBottom: '4px',
-          }}
-        >
-          {icon.name}
-        </div>
+      <div className="min-w-0 flex-1">
+        <div className="mb-1 text-base font-semibold text-card-foreground">{icon.name}</div>
 
-        {/* Categories */}
-        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '8px' }}>
+        <div className="mb-2 flex flex-wrap gap-1.5">
           {icon.categories.length > 0 ? (
             icon.categories.map((cat) => (
-              <span
-                key={cat}
-                style={{
-                  fontSize: '11px',
-                  padding: '2px 8px',
-                  borderRadius: '999px',
-                  background: 'rgba(255,255,255,0.08)',
-                  color: COLORS.textMuted,
-                }}
-              >
+              <Badge key={cat} variant="secondary" className="text-[11px] font-normal">
                 {cat}
-              </span>
+              </Badge>
             ))
           ) : (
-            <span style={{ fontSize: '11px', color: COLORS.textDim }}>No categories</span>
+            <span className="text-[11px] text-muted-foreground">No categories</span>
           )}
         </div>
 
-        {/* Export name */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '12px', color: COLORS.textDim }}>exports as</span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-muted-foreground">exports as</span>
 
           {selected && editingName ? (
-            <input
+            <Input
               autoFocus
               value={nameInput}
               onChange={(e) => setNameInput(e.target.value)}
@@ -128,70 +86,39 @@ export function IconDetail({ icon, selected, entry, onToggle, onRename, onClose 
                   setEditingName(false);
                 }
               }}
-              style={{
-                fontSize: '12px',
-                fontFamily: 'monospace',
-                padding: '2px 6px',
-                borderRadius: '4px',
-                border: `1px solid ${COLORS.selected}`,
-                background: COLORS.bgSurfaceDark,
-                color: COLORS.textPrimary,
-                width: '180px',
-              }}
+              className="h-7 w-[180px] border-ring font-mono text-xs"
             />
           ) : (
-            <button
+            <Button
+              type="button"
+              variant="link"
               onClick={() => selected && setEditingName(true)}
               title={selected ? 'Click to rename export' : 'Add icon first to rename'}
-              style={{
-                fontSize: '12px',
-                fontFamily: 'monospace',
-                color: selected ? COLORS.selected : COLORS.textDimmer,
-                background: 'none',
-                border: 'none',
-                padding: 0,
-                cursor: selected ? 'text' : 'default',
-                textDecoration: selected ? 'underline dotted' : 'none',
-              }}
+              className={cn(
+                'h-auto p-0 font-mono text-xs',
+                selected
+                  ? 'text-primary underline decoration-dotted'
+                  : 'cursor-default text-muted-foreground/70 no-underline',
+              )}
             >
               {exportLabel}
-            </button>
+            </Button>
           )}
         </div>
       </div>
 
-      {/* Actions */}
-      <div style={{ display: 'flex', gap: '10px', flexShrink: 0 }}>
-        <button
+      <div className="flex shrink-0 gap-2.5">
+        <Button
+          type="button"
+          variant={selected ? 'destructive' : 'default'}
           onClick={() => onToggle(icon.name)}
-          style={{
-            padding: '8px 20px',
-            borderRadius: '8px',
-            border: 'none',
-            fontWeight: 600,
-            fontSize: '14px',
-            cursor: 'pointer',
-            background: selected ? COLORS.removeBg : COLORS.addBg,
-            color: selected ? COLORS.removeText : COLORS.addText,
-            transition: 'background 120ms',
-          }}
+          className="min-w-[100px] font-semibold"
         >
           {selected ? 'Remove' : 'Add'}
-        </button>
-        <button
-          onClick={onClose}
-          style={{
-            padding: '8px 14px',
-            borderRadius: '8px',
-            border: `1px solid ${COLORS.border}`,
-            background: 'transparent',
-            color: COLORS.textDim,
-            cursor: 'pointer',
-            fontSize: '14px',
-          }}
-        >
+        </Button>
+        <Button type="button" variant="outline" size="icon" onClick={onClose} aria-label="Close">
           ✕
-        </button>
+        </Button>
       </div>
     </div>
   );
