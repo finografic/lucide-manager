@@ -58,7 +58,7 @@
           "type": "object",
           "description": "Optional host override for picker logo and title. Omitted keys fall back to package defaults.",
           "additionalProperties": false,
-          "required": ["title", "img", "showInSidebar"],
+          "required": ["title", "showInSidebar"],
           "properties": {
             "title": {
               "type": "string",

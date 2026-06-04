@@ -14,8 +14,16 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      '@': path.resolve(import.meta.dirname, './src'),
+      components: path.resolve(import.meta.dirname, './src/components'),
+      config: path.resolve(import.meta.dirname, './src/config'),
+      hooks: path.resolve(import.meta.dirname, './src/hooks'),
+      lib: path.resolve(import.meta.dirname, './src/lib'),
+      ui: path.resolve(import.meta.dirname, './src/components/ui'),
+      utils: path.resolve(import.meta.dirname, './src/lib/utils.ts'),
     },
+  },
+  optimizeDeps: {
+    include: ['use-sync-external-store/shim'],
   },
   define: {
     __ICONS_API_URL__: JSON.stringify(iconsApi.url),

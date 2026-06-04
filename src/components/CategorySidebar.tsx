@@ -7,12 +7,12 @@ import type { ReactNode } from 'react';
  * "All" resets category filter. "Included" filters to selected icons only.
  */
 
-import type { LucideManagerAppBranding } from '@/config/lucide-manager.config.types';
+import { Button } from 'ui/button';
+import { ScrollArea } from 'ui/scroll-area';
+import { cn } from 'utils';
 
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { APP_CHROME_ROW_SIDEBAR_CLASS } from '@/config/app-chrome.constants';
-import { cn } from '@/lib/utils';
+import { APP_CHROME_ROW_SIDEBAR_CLASS } from 'config/app-chrome.constants';
+import type { LucideManagerAppBranding } from 'config/lucide-manager.config.types';
 
 interface Category {
   name: string;

@@ -7,8 +7,7 @@
  */
 
 import React from 'react';
-
-import { cn } from '@/lib/utils';
+import { cn } from 'utils';
 
 type SVGElementName = 'circle' | 'ellipse' | 'g' | 'line' | 'path' | 'polygon' | 'polyline' | 'rect';
 type IconNodeElement = [SVGElementName, Record<string, string>];

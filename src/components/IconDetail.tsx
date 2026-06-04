@@ -7,15 +7,16 @@
  */
 
 import { useEffect, useState } from 'react';
+import { Badge } from 'ui/badge';
+import { Button } from 'ui/button';
+import { Input } from 'ui/input';
+import { cn } from 'utils';
 import type { IconEntry } from '../hooks/useIconsJson';
 import type { LucideIcon } from '../hooks/useLucideData';
 
+import { ICON_DETAIL_SIZE } from 'config/defaults.constants';
+
 import { IconSvg } from './IconSvg';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ICON_DETAIL_SIZE } from '@/config/defaults.constants';
-import { cn } from '@/lib/utils';
 
 interface IconDetailProps {
   icon: LucideIcon;

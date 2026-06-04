@@ -17,7 +17,12 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "components/*": ["./src/components/*"],
+      "config/*": ["./src/config/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "lib/*": ["./src/lib/*"],
+      "ui/*": ["./src/components/ui/*"],
+      "utils": ["./src/lib/utils"]
     }
   },
   "include": ["src/**/*", "scripts/**/*", "vite.config.ts"],

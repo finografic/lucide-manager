@@ -7,18 +7,19 @@
 
 import { Search, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from 'ui/input-group';
+import { ScrollArea } from 'ui/scroll-area';
+import { Skeleton } from 'ui/skeleton';
+import { cn } from 'utils';
 import type { LucideIcon } from './hooks/useLucideData';
+
+import { APP_CHROME_ROW_CLASS } from 'config/app-chrome.constants';
 
 import { CategorySidebar } from './components/CategorySidebar';
 import { IconCard } from './components/IconCard';
 import { IconDetail } from './components/IconDetail';
 import { useIconsJson } from './hooks/useIconsJson';
 import { useLucideData } from './hooks/useLucideData';
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Skeleton } from '@/components/ui/skeleton';
-import { APP_CHROME_ROW_CLASS } from '@/config/app-chrome.constants';
-import { cn } from '@/lib/utils';
 
 const CATEGORY_LABELS: Record<string, string> = {
   'accessibility': 'Accessibility',

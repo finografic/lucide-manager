@@ -1,8 +1,8 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { TooltipProvider } from 'ui/tooltip';
 
 import { App } from './App';
-import { TooltipProvider } from '@/components/ui/tooltip';
 import './index.css';
 
 const root = document.getElementById('root');

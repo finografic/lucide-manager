@@ -5,12 +5,13 @@
  * Click to open the detail panel. Visual highlight when included in the registry.
  */
 
+import { Button } from 'ui/button';
+import { cn } from 'utils';
 import type { LucideIcon } from '../hooks/useLucideData';
 
+import { ICON_GRID_SIZE } from 'config/defaults.constants';
+
 import { IconSvg } from './IconSvg';
-import { Button } from '@/components/ui/button';
-import { ICON_GRID_SIZE } from '@/config/defaults.constants';
-import { cn } from '@/lib/utils';
 
 interface IconCardProps {
   icon: LucideIcon;
