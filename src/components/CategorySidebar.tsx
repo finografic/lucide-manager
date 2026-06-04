@@ -79,7 +79,7 @@ export function CategorySidebar({
             'gap-1.5 px-3.5 text-[15px] font-bold text-sidebar-foreground',
           )}
         >
-          <img src={appBranding.img} alt="" className="size-6 shrink-0" />
+          <img src={appBranding.img} alt="" className="size-5 shrink-0" />
           <span className="truncate">{appBranding.title}</span>
         </div>
       ) : null}
