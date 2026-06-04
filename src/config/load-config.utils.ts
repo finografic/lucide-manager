@@ -116,10 +116,6 @@ function resolveAppBranding(partial: LucideManagerConfigOverrides): LucideManage
     throw new Error('[lucide-manager] Config is missing "manager.appBranding.title".');
   }
 
-  if (!img) {
-    throw new Error('[lucide-manager] Config is missing "manager.appBranding.img".');
-  }
-
   if (showInSidebar === undefined) {
     throw new Error('[lucide-manager] Config is missing "manager.appBranding.showInSidebar".');
   }

@@ -79,17 +79,13 @@ export function CategorySidebar({
             'gap-1.5 px-3.5 text-[15px] font-bold text-sidebar-foreground',
           )}
         >
-          <img src={appBranding.img} alt="" className="size-5 shrink-0" />
-          <span className="truncate">{appBranding.title}</span>
+          {appBranding.img ? <img src={appBranding.img} alt="" className="size-5 shrink-0" /> : null}
+          <span className="truncate leading-none">{appBranding.title}</span>
         </div>
       ) : null}
 
       <ScrollArea className="min-h-0 flex-1 px-2.5 py-4">
         <div className="flex flex-col gap-1.5">
-          <div className="px-2.5 pb-1.5 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
-            View
-          </div>
-
           <SidebarItem
             active={!showIncludedOnly && activeCategory === null}
             onClick={() => {

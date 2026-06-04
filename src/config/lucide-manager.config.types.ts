@@ -22,8 +22,8 @@ export interface LucideManagerServerConfig {
 /** Sidebar logo + title (optional in JSON; all fields required when object is present). */
 export interface LucideManagerAppBranding {
   title: string;
-  /** URL or site-root path (e.g. /lucide.png). */
-  img: string;
+  /** URL, site-root path, or relative file path (e.g. ./logo.svg). Omit to show no image. */
+  img?: string;
   showInSidebar: boolean;
 }
 
@@ -53,6 +53,6 @@ export interface LucideManagerResolvedConfig {
   iconsApi: LucideManagerIconsApiConfig & { url: string };
   manager: {
     server: LucideManagerServerConfig;
-    appBranding: LucideManagerAppBranding;
+    appBranding: Required<Omit<LucideManagerAppBranding, 'img'>> & { img?: string };
   };
 }

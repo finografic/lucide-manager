@@ -23,6 +23,5 @@ export const ICON_DETAIL_SIZE = 41;
 /** Fallback when manager.appBranding is omitted from merged JSON (also in lucide-manager.defaults.json). */
 export const DEFAULT_APP_BRANDING = {
   title: 'Lucide Manager',
-  img: '/lucide.png',
   showInSidebar: true,
 } as const;

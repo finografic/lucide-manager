@@ -56,7 +56,7 @@
         },
         "appBranding": {
           "type": "object",
-          "description": "Optional host override for picker logo and title. Omitted keys fall back to package defaults.",
+          "description": "Optional host override for picker logo and title. Omit img to show no logo image.",
           "additionalProperties": false,
           "required": ["title", "showInSidebar"],
           "properties": {
