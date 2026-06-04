@@ -78,6 +78,34 @@ function iconsApiUrl(host: string, port: number): string {
   return `${DEFAULT_ICONS_API_PROTOCOL}://${host}:${port}`;
 }
 
+const IMG_MIME_TYPES: Record<string, string> = {
+  svg: 'image/svg+xml',
+  png: 'image/png',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  webp: 'image/webp',
+  gif: 'image/gif',
+  ico: 'image/x-icon',
+};
+
+function resolveImgToDataUrl(img: string, configDir: string): string {
+  if (img.startsWith('data:') || img.startsWith('/') || img.startsWith('http')) {
+    return img;
+  }
+
+  const absPath = path.resolve(configDir, img);
+
+  if (!fs.existsSync(absPath)) {
+    throw new Error(`[lucide-manager] appBranding.img file not found: "${absPath}"`);
+  }
+
+  const ext = path.extname(absPath).toLowerCase().slice(1);
+  const mime = IMG_MIME_TYPES[ext] ?? 'image/png';
+  const data = fs.readFileSync(absPath).toString('base64');
+
+  return `data:${mime};base64,${data}`;
+}
+
 function resolveAppBranding(partial: LucideManagerConfigOverrides): LucideManagerAppBranding {
   const { title, img, showInSidebar } = {
     ...DEFAULT_APP_BRANDING,
@@ -208,5 +236,13 @@ export function loadConfig(
   }
 
   const hostConfig = readJsonFile<LucideManagerConfigOverrides>(hostConfigPath);
+
+  if (hostConfig.manager?.appBranding?.img) {
+    hostConfig.manager.appBranding.img = resolveImgToDataUrl(
+      hostConfig.manager.appBranding.img,
+      path.dirname(hostConfigPath),
+    );
+  }
+
   return resolveConfig(mergeConfig(defaults, hostConfig, envOverrides));
 }

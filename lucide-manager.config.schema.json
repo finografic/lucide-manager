@@ -68,7 +68,7 @@
             "img": {
               "type": "string",
               "minLength": 1,
-              "description": "Logo URL or root-relative path (e.g. /lucide.png)."
+              "description": "Logo image. Accepts: a root-relative URL path (e.g. /lucide.png), a relative file path resolved from the config file's directory (e.g. ./my-logo.svg — auto-converted to a data URL at startup), or an explicit data URL."
             },
             "showInSidebar": {
               "type": "boolean",
