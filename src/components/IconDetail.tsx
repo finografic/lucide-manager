@@ -6,6 +6,7 @@
  * and an inline rename field for the exportName (rare but supported).
  */
 
+import { Check, Copy } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Badge } from 'ui/badge';
 import { Button } from 'ui/button';
@@ -30,6 +31,15 @@ interface IconDetailProps {
 export function IconDetail({ icon, selected, entry, onToggle, onRename, onClose }: IconDetailProps) {
   const [editingName, setEditingName] = useState(false);
   const [nameInput, setNameInput] = useState(entry?.exportName ?? '');
+  const [copied, setCopied] = useState(false);
+
+  function copyExportName() {
+    const text = entry ? `${entry.exportName}Icon` : icon.name;
+    void navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  }
 
   useEffect(() => {
     setNameInput(entry?.exportName ?? '');
@@ -73,7 +83,7 @@ export function IconDetail({ icon, selected, entry, onToggle, onRename, onClose 
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground">exports as</span>
+          <span className="text-xs text-muted-foreground">exports as :</span>
 
           {selected && editingName ? (
             <Input
@@ -106,6 +116,17 @@ export function IconDetail({ icon, selected, entry, onToggle, onRename, onClose 
               {exportLabel}
             </Button>
           )}
+
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={copyExportName}
+            aria-label="Copy export name"
+            className="size-6 shrink-0 self-center border-0 bg-transparent p-0 text-muted-foreground/50 shadow-none hover:bg-transparent hover:text-muted-foreground"
+          >
+            {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
+          </Button>
         </div>
       </div>
 
