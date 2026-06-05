@@ -38,6 +38,7 @@ export function IconDetail({ icon, selected, entry, onToggle, onRename, onClose 
     void navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
+      return undefined;
     });
   }
 
