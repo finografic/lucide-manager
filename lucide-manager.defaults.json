@@ -6,11 +6,12 @@
   },
   "manager": {
     "server": {
-      "port": 5199,
+      "port": 5198,
       "openOnStart": true
     },
     "appBranding": {
-      "title": "Lucide Manager",
+      "title": "Lucide Icons Manager",
+      "img": "/lucide.png",
       "showInSidebar": true
     }
   }
