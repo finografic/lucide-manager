@@ -57,7 +57,7 @@ export function IconCard({ icon, isFocused, isIncluded, onClick, onConfirm }: Ic
         isFocused && 'border-ring bg-muted/60 text-foreground hover:bg-muted/60 hover:text-foreground',
         !isFocused &&
           isIncluded &&
-          'border-primary bg-primary/10 text-primary hover:bg-primary/10 hover:text-primary',
+          'border-primary/80 bg-primary/8 text-primary/80 hover:bg-primary/8 hover:text-primary/80',
         !isFocused && !isIncluded && 'border-transparent text-muted-foreground hover:bg-accent/50',
       )}
     >

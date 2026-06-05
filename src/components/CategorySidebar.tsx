@@ -47,13 +47,17 @@ function SidebarItem({
       variant="ghost"
       onClick={onClick}
       className={cn(
-        'h-auto w-full justify-between rounded-md border-l-2 py-1.5 pr-2.5 pl-2 text-[13px] font-normal',
+        'h-auto w-full justify-between rounded-r-md border-l-2 py-1.5 pr-2.5 pl-2 text-[13px] font-normal',
         active &&
           !includedTone &&
           'border-l-sidebar-primary bg-sidebar-accent text-sidebar-accent-foreground',
         active && includedTone && 'border-l-primary bg-primary/10 text-primary',
         !active &&
+          !includedTone &&
           'border-l-transparent text-muted-foreground hover:bg-accent/50 hover:text-muted-foreground',
+        !active &&
+          includedTone &&
+          'border-l-transparent text-primary/70 hover:bg-accent/50 hover:text-primary',
       )}
     >
       {children}
@@ -86,6 +90,11 @@ export function CategorySidebar({
 
       <ScrollArea className="min-h-0 flex-1 px-2.5 py-4">
         <div className="flex flex-col gap-1.5">
+          <SidebarItem active={showIncludedOnly} includedTone onClick={onToggleIncluded}>
+            <span>Included</span>
+            <span className="text-[11px] text-primary opacity-70">{includedCount}</span>
+          </SidebarItem>
+
           <SidebarItem
             active={!showIncludedOnly && activeCategory === null}
             onClick={() => {
@@ -94,11 +103,6 @@ export function CategorySidebar({
             }}
           >
             <span>All</span>
-          </SidebarItem>
-
-          <SidebarItem active={showIncludedOnly} includedTone onClick={onToggleIncluded}>
-            <span>Included</span>
-            <span className="text-[11px] opacity-70">{includedCount}</span>
           </SidebarItem>
 
           <div className="my-2 h-px bg-border" />
