@@ -85,7 +85,7 @@ export function CategorySidebar({
         <div
           className={cn(
             APP_CHROME_ROW_SIDEBAR_CLASS,
-            'gap-1.5 px-3.5 text-[15px] font-bold text-sidebar-foreground',
+            'gap-1.5 px-3.5 pt-3 text-[15px] font-bold text-sidebar-foreground',
           )}
         >
           {appBranding.img ? <img src={appBranding.img} alt="" className="size-5 shrink-0" /> : null}
@@ -93,7 +93,7 @@ export function CategorySidebar({
         </div>
       ) : null}
 
-      <ScrollArea className="min-h-0 flex-1 px-2.5 py-4">
+      <ScrollArea className="min-h-0 flex-1 px-2.5 pt-3 pb-4">
         <div className="flex flex-col gap-1.5">
           <SidebarItem active={showIncludedOnly} includedTone onClick={onToggleIncluded}>
             <span className="font-bold text-primary">Collection</span>
