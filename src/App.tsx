@@ -164,7 +164,7 @@ export function App() {
       ? ` in ${CATEGORY_LABELS[activeCategory] ?? activeCategory}`
       : showIncludedOnly
         ? ' included'
-        : '';
+        : ' total';
 
   return (
     <div className="flex h-screen bg-background text-foreground">
@@ -174,8 +174,15 @@ export function App() {
         activeCategory={activeCategory}
         showIncludedOnly={showIncludedOnly}
         includedCount={entries.length}
-        onSelectCategory={setActiveCategory}
-        onToggleIncluded={() => setShowIncludedOnly((prev) => !prev)}
+        totalCount={allIcons.length}
+        onSelectCategory={(cat) => {
+          setActiveCategory(cat);
+          setFocusedIcon(null);
+        }}
+        onToggleIncluded={() => {
+          setShowIncludedOnly((prev) => !prev);
+          setFocusedIcon(null);
+        }}
       />
 
       <div className="flex min-h-0 min-w-0 flex-1 flex-col">
@@ -210,7 +217,9 @@ export function App() {
             {saving ? (
               <span className="text-chart-1">Saving…</span>
             ) : saveError ? (
-              <span className="text-destructive">Save failed</span>
+              <span className="text-destructive" title={saveError}>
+                Save failed
+              </span>
             ) : (
               <span>
                 <span className="font-semibold text-primary">
@@ -244,7 +253,7 @@ export function App() {
                 </p>
               ) : (
                 <>
-                  <p className="mb-3 text-xs text-muted-foreground/70">
+                  <p className="mb-3 text-right text-xs text-muted-foreground/70">
                     {filteredIcons.length} icon{filteredIcons.length !== 1 ? 's' : ''}
                     {filterLabel}
                   </p>

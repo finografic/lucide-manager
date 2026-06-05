@@ -50,7 +50,7 @@ export function IconDetail({ icon, selected, entry, onToggle, onRename, onClose 
     <div className="fixed inset-x-0 bottom-0 z-100 flex items-center gap-6 border-t border-border bg-card px-6 py-4 shadow-[0_-4px_24px_rgba(0,0,0,0.4)]">
       <div
         className={cn(
-          'flex size-[72px] shrink-0 items-center justify-center rounded-xl bg-muted/40',
+          'flex size-[72px] shrink-0 items-center justify-center rounded-xl bg-black',
           selected ? 'text-primary' : 'text-muted-foreground',
         )}
       >

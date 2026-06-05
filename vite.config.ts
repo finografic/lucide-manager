@@ -30,7 +30,7 @@ export default defineConfig({
     __APP_BRANDING__: JSON.stringify(appBranding),
   },
   server: {
-    strictPort: false,
+    strictPort: true,
     port: pickerPort,
     open: openOnStart ? `http://localhost:${pickerPort}/` : false,
   },

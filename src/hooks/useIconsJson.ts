@@ -61,6 +61,12 @@ export function useIconsJson() {
       );
   }, []);
 
+  useEffect(() => {
+    if (!state.error) return;
+    const timer = setTimeout(() => setState((prev) => ({ ...prev, error: null })), 8000);
+    return () => clearTimeout(timer);
+  }, [state.error]);
+
   // ── Derived ────────────────────────────────────────────────────────────────
 
   const selectedNames = useMemo(() => new Set(state.entries.map((e) => e.lucideName)), [state.entries]);

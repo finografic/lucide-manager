@@ -26,6 +26,7 @@ interface CategorySidebarProps {
   activeCategory: string | null;
   showIncludedOnly: boolean;
   includedCount: number;
+  totalCount: number;
   onSelectCategory: (name: string | null) => void;
   onToggleIncluded: () => void;
 }
@@ -45,9 +46,12 @@ function SidebarItem({
     <Button
       type="button"
       variant="ghost"
-      onClick={onClick}
+      onClick={(e) => {
+        if (e.detail > 1) return;
+        onClick();
+      }}
       className={cn(
-        'h-auto w-full justify-between rounded-r-md border-l-2 py-1.5 pr-2.5 pl-2 text-[13px] font-normal',
+        'h-auto w-full justify-between rounded-l-none rounded-r-md border-l-2 py-1.5 pr-2.5 pl-2 text-[13px] font-normal',
         active &&
           !includedTone &&
           'border-l-sidebar-primary bg-sidebar-accent text-sidebar-accent-foreground',
@@ -71,6 +75,7 @@ export function CategorySidebar({
   activeCategory,
   showIncludedOnly,
   includedCount,
+  totalCount,
   onSelectCategory,
   onToggleIncluded,
 }: CategorySidebarProps) {
@@ -84,15 +89,15 @@ export function CategorySidebar({
           )}
         >
           {appBranding.img ? <img src={appBranding.img} alt="" className="size-5 shrink-0" /> : null}
-          <span className="truncate leading-none">{appBranding.title}</span>
+          <span className="truncate leading-none pl-1.5">{appBranding.title}</span>
         </div>
       ) : null}
 
       <ScrollArea className="min-h-0 flex-1 px-2.5 py-4">
         <div className="flex flex-col gap-1.5">
           <SidebarItem active={showIncludedOnly} includedTone onClick={onToggleIncluded}>
-            <span>Included</span>
-            <span className="text-[11px] text-primary opacity-70">{includedCount}</span>
+            <span className="font-bold text-primary">Collection</span>
+            <span className="text-[11px] font-bold text-primary">{includedCount}</span>
           </SidebarItem>
 
           <SidebarItem
@@ -102,7 +107,8 @@ export function CategorySidebar({
               if (showIncludedOnly) onToggleIncluded();
             }}
           >
-            <span>All</span>
+            <span className="font-bold">All icons</span>
+            <span className="text-[11px] font-bold opacity-60">{totalCount || null}</span>
           </SidebarItem>
 
           <div className="my-2 h-px bg-border" />

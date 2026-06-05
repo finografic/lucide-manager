@@ -29,7 +29,7 @@ const CARD_LAYOUT = {
   paddingTop: `calc(1rem + (${VERTICAL_SHIFT}))`,
   paddingBottom: `calc(1rem - (${VERTICAL_SHIFT}))`,
   paddingInline: 6,
-  gapBetweenIconAndLabel: 6,
+  gapBetweenIconAndLabel: 10,
 } as const;
 
 export function IconCard({ icon, isFocused, isIncluded, onClick, onConfirm }: IconCardProps) {
@@ -60,15 +60,15 @@ export function IconCard({ icon, isFocused, isIncluded, onClick, onConfirm }: Ic
           'border-ring/70 bg-muted/60 text-foreground hover:bg-muted/60 hover:text-foreground',
         isFocused &&
           isIncluded &&
-          'border-primary bg-primary/10 text-primary hover:bg-primary/10 hover:text-primary',
+          'border-primary bg-primary/20 text-primary hover:!bg-primary/20 hover:text-primary',
         !isFocused &&
           isIncluded &&
-          'border-primary/60 bg-primary/8 text-primary hover:bg-primary/8 hover:text-primary',
+          'border-primary/60 bg-primary/8 text-primary hover:border-primary hover:!bg-primary/8 hover:text-primary',
         !isFocused && !isIncluded && 'border-transparent text-muted-foreground/80 hover:bg-accent/50',
       )}
     >
       <IconSvg node={icon.node} size={ICON_GRID_SIZE} />
-      <span className="w-full truncate text-center text-[10px] leading-tight opacity-70">{icon.name}</span>
+      <span className="w-full truncate text-center text-[10px] leading-tight opacity-80">{icon.name}</span>
     </Button>
   );
 }
