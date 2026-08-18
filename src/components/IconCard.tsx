@@ -68,7 +68,7 @@ export function IconCard({ icon, isFocused, isIncluded, onClick, onConfirm }: Ic
       )}
     >
       <IconSvg node={icon.node} size={ICON_GRID_SIZE} />
-      <span className="w-full truncate text-center text-[10px] leading-tight opacity-80">{icon.name}</span>
+      <span className="w-full truncate text-center text-caption leading-tight opacity-80">{icon.name}</span>
     </Button>
   );
 }

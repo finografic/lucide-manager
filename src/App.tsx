@@ -213,7 +213,7 @@ export function App() {
             ) : null}
           </InputGroup>
 
-          <div className="ml-auto shrink-0 text-[13px] text-muted-foreground">
+          <div className="ml-auto shrink-0 text-sm text-muted-foreground">
             {saving ? (
               <span className="text-chart-1">Saving…</span>
             ) : saveError ? (

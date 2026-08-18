@@ -51,7 +51,7 @@ function SidebarItem({
         onClick();
       }}
       className={cn(
-        'h-auto w-full justify-between rounded-l-none rounded-r-md border-l-2 py-1.5 pr-2.5 pl-2 text-[13px] font-normal',
+        'h-auto w-full justify-between rounded-l-none rounded-r-md border-l-2 py-1.5 pr-2.5 pl-2 text-sm font-normal',
         active &&
           !includedTone &&
           'border-l-sidebar-primary bg-sidebar-accent text-sidebar-accent-foreground',
@@ -85,7 +85,7 @@ export function CategorySidebar({
         <div
           className={cn(
             APP_CHROME_ROW_SIDEBAR_CLASS,
-            'gap-1.5 px-3.5 pt-3 pb-2.5 text-[15px] font-bold text-sidebar-foreground',
+            'gap-1.5 px-3.5 pt-3 pb-2.5 text-base font-bold text-sidebar-foreground',
           )}
         >
           {appBranding.img ? <img src={appBranding.img} alt="" className="size-5 shrink-0" /> : null}
