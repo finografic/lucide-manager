@@ -107,15 +107,15 @@
     "@finografic/lucide-manager": "link:",
     "@finografic/md-lint": "^0.16.6",
     "@finografic/oxc-config": "^2.9.1",
-    "@finografic/project-scripts": "^1.6.2",
+    "@finografic/project-scripts": "^2.0.1",
     "@tailwindcss/vite": "^4.3.0",
     "@types/node": "24.12.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.5",
     "husky": "^9.1.7",
     "lint-staged": "^17.3.0",
-    "oxfmt": "^0.63.0",
-    "oxlint": "^1.78.0",
+    "oxfmt": "^0.64.0",
+    "oxlint": "^1.79.0",
     "oxlint-tsgolint": "^7.0.2001",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -124,7 +124,7 @@
     "tsdown": "^0.22.14",
     "typescript": "7.0.2",
     "vite": "^7.3.1",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.11"
   },
   "engines": {
     "node": ">=24.19.0"
