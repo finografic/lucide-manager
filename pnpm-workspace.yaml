@@ -2,4 +2,4 @@ allowBuilds:
   esbuild: true
   msw: true
 minimumReleaseAgeExclude:
-  - '@finografic/project-scripts@2.0.1'
+  - '@finografic/*'
